@@ -1,4 +1,4 @@
-/* unitz 1.0.0 - A unit parser, converter, & combiner in JS by Philip Diffenderfer */
+/* unitz 0.1.0 - A unit parser, converter, & combiner in JS by Philip Diffenderfer */
 (function(global, undefined)
 {
 
@@ -72,12 +72,14 @@ var Unitz =
       unit: unit,
       normal: input,
       unitClass: this.units[ unit ],
-      convert: this.convertThis
+      group: null,
+      convert: this.convertThis,
+      best: this.bestThis
     };
 
     if ( parsed.unitClass )
     {
-      var group = parsed.unitClass.groupMap[ unit ];
+      var group = parsed.group = parsed.unitClass.groupMap[ unit ];
 
       parsed.normal = this.isOne( value ) ?
         ( value + ' ' + group.singular ) :
@@ -93,7 +95,7 @@ var Unitz =
 
     if ( converted !== false && fraction )
     {
-      var denominators = this.unitClass ? this.unitClass.groupMap[ this.unit ].denominators : classlessDenominators;
+      var denominators = this.group ? this.group.denominators : classlessDenominators;
 
       if ( isArray( denominators ) )
       {
@@ -102,6 +104,11 @@ var Unitz =
     }
 
     return converted;
+  },
+
+  bestThis: function()
+  {
+    // TODO
   },
 
   convert: function(input, unit)
@@ -248,16 +255,15 @@ var Unitz =
     for (var i = 0; i < denominators.length && distance > this.epsilon; i++)
     {
       var den = denominators[ i ];
+      var num = Math.round( value * den );
+      var dis = Math.abs( num / den - value );
 
-      if ( largestDenominator && den > largestDenominator )
+      if ( isNumber( largestDenominator ) && den > largestDenominator )
       {
         break;
       }
 
-      var num = Math.round( value * den );
-      var dis = Math.abs( Math.floor( num / den ) - value );
-
-      if ( dis - this.epsilon < distance )
+      if ( dis + this.epsilon < distance )
       {
         denominator = den;
         numerator = num;
@@ -265,21 +271,29 @@ var Unitz =
       }
     }
 
-    if ( denominator === 1 )
-    {
-      return numerator;
-    }
-
     var whole = Math.floor( numerator / denominator );
-    var remainder = Math.round( value - whole ) * denominator;
+    var remainder = Math.round( (value - whole) * denominator );
 
     var fraction = {
       numerator: numerator,
       denominator: denominator,
       remainder: remainder,
       whole: whole,
-      string: whole === 0 ? (  numerator + '/' + denominator ) : ( whole + ' ' + remainder + '/' + denominator )
+      string: ''
     };
+
+    if ( denominator === 1 )
+    {
+      fraction.string = numerator;
+    }
+    else if ( whole === 0 )
+    {
+      fraction.string = numerator + '/' + denominator;
+    }
+    else
+    {
+      fraction.string = whole + ' ' + remainder + '/' + denominator;
+    }
 
     return fraction;
   },
