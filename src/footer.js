@@ -4,7 +4,7 @@
   Unitz.classes = classes;
   Unitz.classMap = classMap;
   Unitz.units = units;
-  Unitz.regex = /^\s*(-?\d*)(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i;
+  Unitz.regex = /^\s*(-?\d*)(\s+(\d+))?(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i;
   Unitz.epsilon = 0.001;
   Unitz.separator = ',';
   Unitz.separatorJoin = ', ';

@@ -1,5 +1,24 @@
 module( 'Unitz' );
 
+test( 'parse', function(assert)
+{
+  strictEqual( Unitz.parse('cup').value, 1 );
+  strictEqual( Unitz.parse('2').value, 2 );
+  strictEqual( Unitz.parse('-2').value, -2 );
+  strictEqual( Unitz.parse('2.1').value, 2.1 );
+  strictEqual( Unitz.parse('-2.1').value, -2.1 );
+  strictEqual( Unitz.parse('1/2').value, 0.5 );
+  strictEqual( Unitz.parse('-1/2').value, -0.5 );
+  strictEqual( Unitz.parse('3/2').value, 1.5 );
+  strictEqual( Unitz.parse('-3/2').value, -1.5 );
+  strictEqual( Unitz.parse('2 1/2').value, 2.5 );
+  strictEqual( Unitz.parse('-2 1/2').value, -2.5 );
+  strictEqual( Unitz.parse('2 3/2').value, 3.5 );
+  strictEqual( Unitz.parse('-2 3/2').value, -3.5 );
+  strictEqual( Unitz.parse('1 0.5').value, 1.5 );
+  strictEqual( Unitz.parse('-1 0.5').value, -1.5 );
+});
+
 test( 'parse and convert', function(assert)
 {
   strictEqual( Unitz.parse('2c').convert('tbsp'), 32 );

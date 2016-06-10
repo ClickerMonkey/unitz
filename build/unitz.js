@@ -1,4 +1,4 @@
-/* unitz 0.2.0 - A unit parser, converter, & combiner in JS by Philip Diffenderfer */
+/* unitz 0.3.0 - A unit parser, converter, & combiner in JS by Philip Diffenderfer */
 // UMD (Universal Module Definition)
 (function (root, factory)
 {
@@ -21,26 +21,6 @@
   }
 }(this, function()
 {
-
-  function isString(x)
-  {
-    return typeof x === 'string';
-  }
-
-  function isObject(x)
-  {
-    return x !== null && typeof x === 'object';
-  }
-
-  function isNumber(x)
-  {
-    return typeof x === 'number' && !isNaN(x);
-  }
-
-  function isArray(x)
-  {
-    return x instanceof Array;
-  }
 
   var classes = [];
   var classMap = {};
@@ -127,9 +107,10 @@ function parse(input)
 {
   var group = Unitz.regex.exec( input );
   var whole = group[1];
-  var denom = group[3];
-  var decimal = group[4];
-  var unit = group[5].toLowerCase();
+  var numer = group[3];
+  var denom = group[5];
+  var decimal = group[6];
+  var unit = group[7].toLowerCase();
 
   if ( !whole && !decimal && !unit )
   {
@@ -142,13 +123,24 @@ function parse(input)
   {
     value = parseInt( whole );
 
+    var sign = (value < 0 ? -1 : 1);
+
     if ( denom )
     {
-      value /= parseInt( denom );
+      denom = parseInt( denom );
+
+      if ( numer )
+      {
+        value += ( parseInt( numer ) / denom ) * sign;
+      }
+      else
+      {
+        value /= denom;
+      }
     }
     else if ( decimal )
     {
-      value += parseFloat( '0.' + decimal ) * (value < 0 ? -1 : 1);
+      value += parseFloat( '0.' + decimal ) * sign;
     }
   }
 
@@ -832,7 +824,7 @@ addClass((function generateWeightClass()
   Unitz.classes = classes;
   Unitz.classMap = classMap;
   Unitz.units = units;
-  Unitz.regex = /^\s*(-?\d*)(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i;
+  Unitz.regex = /^\s*(-?\d*)(\s+(\d+))?(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i;
   Unitz.epsilon = 0.001;
   Unitz.separator = ',';
   Unitz.separatorJoin = ', ';

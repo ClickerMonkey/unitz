@@ -79,9 +79,10 @@ function parse(input)
 {
   var group = Unitz.regex.exec( input );
   var whole = group[1];
-  var denom = group[3];
-  var decimal = group[4];
-  var unit = group[5].toLowerCase();
+  var numer = group[3];
+  var denom = group[5];
+  var decimal = group[6];
+  var unit = group[7].toLowerCase();
 
   if ( !whole && !decimal && !unit )
   {
@@ -94,13 +95,24 @@ function parse(input)
   {
     value = parseInt( whole );
 
+    var sign = (value < 0 ? -1 : 1);
+
     if ( denom )
     {
-      value /= parseInt( denom );
+      denom = parseInt( denom );
+
+      if ( numer )
+      {
+        value += ( parseInt( numer ) / denom ) * sign;
+      }
+      else
+      {
+        value /= denom;
+      }
     }
     else if ( decimal )
     {
-      value += parseFloat( '0.' + decimal ) * (value < 0 ? -1 : 1);
+      value += parseFloat( '0.' + decimal ) * sign;
     }
   }
 
