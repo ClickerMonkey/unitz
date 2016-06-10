@@ -6,8 +6,8 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ClickerMonkey/unitz/blob/master/LICENSE)
 [![Alpha](https://img.shields.io/badge/State-Alpha-orange.svg)]()
 
-Unitz is a library designed to take in a quantity and unit provided by a user and perform addition, conversion, and transformation to human friendly representations.
-Unitz will attempt to handle conversions and additions even if the units aren't recognized.
+Unitz is a library designed to take in a quantity and unit provided by a user and perform addition, subtraction, conversion, and transformation to human friendly representations.
+Unitz will attempt to handle conversions, additions, and subtractions even if the units aren't recognized.
 
 ### Installation
 
@@ -31,6 +31,7 @@ Further down this document provides a detailed list of all units supported.
 // Unitz.parse( input )
 // =============================================================================
 
+// Valid numbers: 1, 1/2, 1 1/2, 3/2, 1.5, .5, -1 1/2, -1.5, -.5
 Unitz.parse('2c'); /*{
   value: 2,
   unit: 'c',
@@ -69,6 +70,12 @@ Unitz.combine( '2 bags, 2 cup', '1 pint, 1 bag' ); // '3 bags, 1 quart'
 Unitz.combine( '1 loaf', '2 loaves' ); // '3 loaves'
 Unitz.combine( '2, 3, 4', '1 taco' ); // '10 taco'
 Unitz.combine( '2, 3 tacos, 4', '1 taco' ); // '10 tacos'
+
+// =============================================================================
+// Unitz.subtract( a, b, allowNegatives, useFractions, largestDenominator )
+// =============================================================================
+
+Unitz.subtract( '2 bags, 3 pints', '1 bag, 1 quart' ); // '1 bag, 1 pint'
 
 // =============================================================================
 // Unitz.conversions( input, largestDenominator, min, max );
