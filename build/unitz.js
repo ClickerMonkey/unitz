@@ -612,7 +612,7 @@ addClass((function generateLengthClass()
 
   uc.addGroup( 1,     null,   ['in', 'inch', 'inches', '"'], [2, 3, 4, 8, 16, 32], 'inch', 'inches' );
   uc.addGroup( 12,    'in',   ['ft', 'foot', 'feet', "'"], [2, 3, 4, 12], 'foot', 'feet' );
-  uc.addGroup( 3,     'ft',   ['yd', 'yard', 'yards'], [3], 'yard', 'yards' );
+  uc.addGroup( 3,     'ft',   ['yd', 'yds', 'yard', 'yards'], [3], 'yard', 'yards' );
   uc.addGroup( 5280,  'ft',   ['mi', 'mile', 'miles'], [2, 3, 4, 5, 6, 7, 8, 9, 10], 'mile', 'miles' );
   uc.addGroup( 3,     'mi',   ['league', 'leagues'], [2, 3, 4, 5, 6, 7, 8, 9, 10], 'league', 'leagues' );
 
@@ -633,8 +633,8 @@ addClass((function generateVolumeClass()
 {
   var uc = new UnitzClass( 'Rotation' );
 
-  uc.addGroup( 1,     null,    ['deg', 'degree', 'degrees'], [], 'degree', 'degrees' );
-  uc.addGroup( 1,     null,    ['rad', 'radian', 'radians'], [], 'radian', 'radians' );
+  uc.addGroup( 1,     null,    ['deg', 'degs', 'degree', 'degrees'], [], 'degree', 'degrees' );
+  uc.addGroup( 1,     null,    ['rad', 'rads', 'radian', 'radians'], [], 'radian', 'radians' );
 
   uc.addBaseConversion( 'deg', 'rad', 0.0174533 );
 
