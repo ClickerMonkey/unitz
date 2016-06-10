@@ -9,6 +9,10 @@
 Unitz is a library designed to take in a quantity and unit provided by a user and perform addition, conversion, and transformation to human friendly representations.
 Unitz will attempt to handle conversions and additions even if the units aren't recognized.
 
+### Installation
+
+Install via `bower install unitz` or `npm install unitz`.
+
 Several classes are implemented - you can even add your own:
 - Area
 - Digital
