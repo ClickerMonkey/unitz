@@ -22,6 +22,10 @@ var build = {
     './src/header.js',
     './src/Unitz.js',
     './src/UnitzClass.js',
+    './src/UnitzGroup.js',
+    './src/UnitzParsed.js',
+    './src/UnitzFraction.js',
+    './src/UnitzConversion.js',
     './src/classes/*.js',
     './src/footer.js'
   ]

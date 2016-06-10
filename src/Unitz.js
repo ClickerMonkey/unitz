@@ -1,288 +1,322 @@
 
-var Unitz =
+function isString(x)
 {
+  return typeof x === 'string';
+}
 
-  classes: [],
+function isObject(x)
+{
+  return x !== null && typeof x === 'object';
+}
 
-  classMap: {},
+function isNumber(x)
+{
+  return typeof x === 'number' && !isNaN(x);
+}
 
-  units: {},
+function isArray(x)
+{
+  return x instanceof Array;
+}
 
-  regex: /^\s*(\d*)(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i,
+function isOne(x)
+{
+  return isNumber( x ) && Math.abs( x - 1 ) < Unitz.epsilon;
+}
 
-  epsilon: 0.0001,
+function isWhole(x)
+{
+  return isNumber( x ) && Math.abs( Math.floor( x ) - x ) < 0.00000001;
+}
 
-  separator: ',',
+function isHeuristicMatch(unitA, unitB)
+{
+  return unitA.substring( 0, Unitz.heuristicLength ) === unitB.substring( 0, Unitz.heuristicLength );
+}
 
-  parse: function(input)
+function getHeuristicUnit(unitA, unitB, value)
+{
+  return unitA.length > unitB.length && !isOne( value ) ? unitA : unitB;
+}
+
+function createNormal(value, unit)
+{
+  return unit ? value + ' ' + unit : value;
+}
+
+function splitInput(input)
+{
+  if ( isString( input ) )
   {
-    var group = this.regex.exec( input );
-    var whole = group[1];
-    var denom = group[3];
-    var decimal = group[4];
-    var unit = group[5].toLowerCase();
-
-    if ( !whole && !decimal && !unit )
-    {
-      return false;
-    }
-
-    var value = 1;
-
-    if ( whole )
-    {
-      value = parseInt( whole );
-
-      if ( denom )
-      {
-        value /= parseInt( denom );
-      }
-      else if ( decimal )
-      {
-        value += 1.0 / parseInt( decimal );
-      }
-    }
-
-    var parsed = {
-      value: value,
-      unit: unit,
-      normal: input,
-      unitClass: this.units[ unit ],
-      group: null,
-      convert: this.convertThis,
-      best: this.bestThis
-    };
-
-    if ( parsed.unitClass )
-    {
-      var group = parsed.group = parsed.unitClass.groupMap[ unit ];
-
-      parsed.normal = this.isOne( value ) ?
-        ( value + ' ' + group.singular ) :
-        ( value + ' ' + group.plural );
-    }
-
-    return parsed;
-  },
-
-  convertThis: function(to, fraction, largestDenominator, classlessDenominators)
+    return input.split( Unitz.separator );
+  }
+  if ( isArray( input ) )
   {
-    var converted = Unitz.convert( this, to );
-
-    if ( converted !== false && fraction )
-    {
-      var denominators = this.group ? this.group.denominators : classlessDenominators;
-
-      if ( isArray( denominators ) )
-      {
-        converted = Unitz.toFraction( converted, denominators, largestDenominator );
-      }
-    }
-
-    return converted;
-  },
-
-  bestThis: function()
+    return input;
+  }
+  if ( isObject( input ) )
   {
-    // TODO
-  },
+    return [ input ];
+  }
 
-  convert: function(input, unit)
+  return [];
+}
+
+function parseInput(input)
+{
+  if ( isString( input ) )
   {
-    var parsed = this.parseInput( input );
-
-    // Not valid input? return false
-    if ( !isObject( parsed ) )
-    {
-      return false;
-    }
-
-    var value = parsed.value;
-    var unitClass = parsed.unitClass;
-
-    // If there was no unit class and no unit provided, return the unitless value.
-    if ( !unitClass && !unit )
-    {
-      return value;
-    }
-
-    // If there was no unit class parsed OR the given unit is not in the same class then return false!
-    if ( !unitClass || !(unit in unitClass.converters) )
-    {
-      return false;
-    }
-
-    // If the parsed unit and requested unit is the same, return the parsed value.
-    if ( unitClass.groupMap[ unit ] === unitClass.groupMap[ parsed.unit ] )
-    {
-      return value;
-    }
-
-    // Convert the parsed value to its base unit
-    value *= unitClass.converters[ parsed.unit ];
-
-    // If they don't have the same bases convert the parsed value
-    var baseFrom = unitClass.bases[ parsed.unit ];
-    var baseTo = unitClass.bases[ unit ];
-
-    if ( baseFrom !== baseTo )
-    {
-      value *= unitClass.mapping[ baseFrom ][ baseTo ];
-    }
-
-    // Divide the value by the desired unit.
-    value /= unitClass.converters[ unit ];
-
-    return value;
-  },
-
-  combine: function(inputA, inputB)
+    return parse( input );
+  }
+  if ( isObject( input ) )
   {
-    var splitA = isString( inputA ) ? inputA.split( this.separator ) : [ inputA ];
-    var splitB = isString( inputB ) ? inputB.split( this.separator ) : [ inputB ];
-    var splitBoth = splitA.concat( splitB );
-    var parsed = [];
-
-    for (var i = 0; i < splitBoth.length; i++)
-    {
-      var parsedInput = this.parseInput( splitBoth[ i ] );
-
-      if ( parsedInput !== false )
-      {
-        parsed.push( parsedInput );
-      }
-    }
-
-    // TODO
-  },
-
-  parseInput: function(input)
+    return input;
+  }
+  if ( isNumber( input ) )
   {
-    if ( isString( input ) )
-    {
-      return this.parse( input );
-    }
-    if ( isObject( input ) )
-    {
-      return input;
-    }
-    if ( isNumber( input ) )
-    {
-      return {
-        value: input,
-        unit: '',
-        unitClass: null,
-        convert: this.convertThis
-      };
-    }
+    return UnitzParsed.fromNumber( input );
+  }
 
+  return false;
+}
+
+function parse(input)
+{
+  var group = Unitz.regex.exec( input );
+  var whole = group[1];
+  var denom = group[3];
+  var decimal = group[4];
+  var unit = group[5].toLowerCase();
+
+  if ( !whole && !decimal && !unit )
+  {
     return false;
-  },
+  }
 
-  conversions: function(input, largestDenominator)
+  var value = 1;
+
+  if ( whole )
   {
-    var parsed = this.parseInput( input );
+    value = parseInt( whole );
 
-    if ( !isObject( parsed ) || !parsed.unitClass )
+    if ( denom )
     {
-      return input;
+      value /= parseInt( denom );
     }
+    else if ( decimal )
+    {
+      value += parseFloat( '0.' + decimal );
+    }
+  }
 
+  return new UnitzParsed( value, unit, units[ unit ], input );
+}
+
+function best(input, fraction, largestDenominator)
+{
+  var parsed = parseInput( input );
+
+  if ( parsed.unitClass )
+  {
+    // out of all groups in class, calculate converted value fraction and
+    // take the one that is a whole number or is the closest to a whole
+    // number while being the closest
+    var closest = null;
+    var closestGroup = null;
     var groups = parsed.unitClass.groups;
-    var conversions = parsed.conversions = [];
 
     for (var i = 0; i < groups.length; i++)
     {
       var grp = groups[ i ];
+      var fraction = parsed.convert( grp.unit, true );
 
-      if ( grp.unit === parsed.unit )
+      if ( fraction.valid && (!closest || (fraction.distance < closest.distance) || fraction.denominator === 1) )
       {
-        continue;
-      }
-
-      var converted = parsed.convert( grp.unit );
-      var fraction = this.toFraction( converted, grp.denominators, largestDenominator );
-      var isOne = this.isOne( converted );
-
-      conversions.push(
-      {
-        decimal: converted,
-        fraction: fraction,
-        short: grp.unit,
-        long: isOne ? grp.singular : grp.plural,
-        group: grp
-      });
-    }
-
-    return parsed;
-  },
-
-  isOne: function(x)
-  {
-    return Math.abs( x - 1 ) < this.epsilon;
-  },
-
-  toFraction: function(value, denominators, largestDenominator)
-  {
-    var distance = Math.abs( Math.floor( value ) - value );
-    var denominator = 1;
-    var numerator = value;
-
-    for (var i = 0; i < denominators.length && distance > this.epsilon; i++)
-    {
-      var den = denominators[ i ];
-      var num = Math.round( value * den );
-      var dis = Math.abs( num / den - value );
-
-      if ( isNumber( largestDenominator ) && den > largestDenominator )
-      {
-        break;
-      }
-
-      if ( dis + this.epsilon < distance )
-      {
-        denominator = den;
-        numerator = num;
-        distance = dis;
+        closest = fraction;
+        closestGroup = grp;
       }
     }
 
-    var whole = Math.floor( numerator / denominator );
-    var remainder = Math.round( (value - whole) * denominator );
-
-    var fraction = {
-      numerator: numerator,
-      denominator: denominator,
-      remainder: remainder,
-      whole: whole,
-      string: ''
-    };
-
-    if ( denominator === 1 )
+    if ( closest )
     {
-      fraction.string = numerator;
-    }
-    else if ( whole === 0 )
-    {
-      fraction.string = numerator + '/' + denominator;
-    }
-    else
-    {
-      fraction.string = whole + ' ' + remainder + '/' + denominator;
-    }
-
-    return fraction;
-  },
-
-  addClass: function(unitClass)
-  {
-    this.classMap[ unitClass.className ] = unitClass;
-    this.classes.push( unitClass );
-
-    for (var unit in unitClass.converters)
-    {
-      this.units[ unit ] = unitClass;
+      parsed.value = closest.actual;
+      parsed.unit = closestGroup.unit;
+      parsed.group = closestGroup;
+      parsed.normal = closestGroup.addUnit( closest ? closest.string : closest.actual );
     }
   }
 
-};
+  return parsed;
+}
+
+function convert(input, unit, fraction)
+{
+  var parsed = parseInput( input );
+
+  // Not valid input? return false
+  if ( !isObject( parsed ) )
+  {
+    return false;
+  }
+
+  var value = parsed.value;
+  var unitClass = parsed.unitClass;
+
+  // If there was no unit class and no unit provided, return the unitless value.
+  if ( !unitClass && !unit )
+  {
+    return value;
+  }
+
+  // If there was no unit class parsed OR the given unit is not in the same class then return false!
+  if ( !unitClass || !(unit in unitClass.converters) )
+  {
+    return false;
+  }
+
+  // If the parsed unit and requested unit is the same, return the parsed value.
+  if ( unitClass.groupMap[ unit ] === unitClass.groupMap[ parsed.unit ] )
+  {
+    return value;
+  }
+
+  // Convert the parsed value to its base unit
+  value *= unitClass.converters[ parsed.unit ];
+
+  // If they don't have the same bases convert the parsed value
+  var baseFrom = unitClass.bases[ parsed.unit ];
+  var baseTo = unitClass.bases[ unit ];
+
+  if ( baseFrom !== baseTo )
+  {
+    value *= unitClass.mapping[ baseFrom ][ baseTo ];
+  }
+
+  // Divide the value by the desired unit.
+  value /= unitClass.converters[ unit ];
+
+  return value;
+}
+
+function combine(inputA, inputB, fraction, largestDenominator)
+{
+  var splitA = splitInput( inputA );
+  var splitB = splitInput( inputB );
+  var splitBoth = splitA.concat( splitB );
+  var parsed = [];
+
+  // Parse all inputs - ignore invalid inputs
+  for (var i = 0; i < splitBoth.length; i++)
+  {
+    var parsedInput = parseInput( splitBoth[ i ] );
+
+    if ( parsedInput !== false )
+    {
+      parsed.push( parsedInput );
+    }
+  }
+
+  // Try merging subsequent (k) parsed values into this one (i)
+  for (var i = 0; i < parsed.length - 1; i++)
+  {
+    var a = parsed[ i ];
+
+    for (var k = parsed.length - 1; k > i; k--)
+    {
+      var b = parsed[ k ];
+      var converted = b.convert( a.unit );
+
+      // Same unit class. We can use proper singular/plural units.
+      if ( converted !== false && a.group )
+      {
+        parsed.splice( k, 1 );
+
+        a.value += converted;
+        a.normal = a.group.addUnit( a.value );
+      }
+      // "a" or "b" doesn't have a unit
+      else if ( !a.unit || !b.unit )
+      {
+        parsed.splice( k, 1 );
+
+        a.value += b.value;
+        a.unit = a.unit || b.unit;
+        a.normal = createNormal( a.value, a.unit );
+      }
+      // "a" and "b" have a similar enough unit.
+      else if ( isHeuristicMatch( a.unit, b.unit ) )
+      {
+        parsed.splice( k, 1 );
+
+        a.value += b.value;
+        a.unit = getHeuristicUnit( a.unit, b.unit, a.value );
+        a.normal = createNormal( a.value, a.unit );
+      }
+    }
+  }
+
+  var combined = [];
+
+  for (var i = 0; i < parsed.length; i++)
+  {
+    var parsedBest = best( parsed[ i ], fraction, largestDenominator );
+
+    if ( parsedBest && parsedBest.normal )
+    {
+      combined.push( parsedBest.normal );
+    }
+  }
+
+  return combined.join( Unitz.separatorJoin );
+}
+
+function conversions(input, largestDenominator, min, max)
+{
+  var parsed = parseInput( input );
+
+  if ( !isObject( parsed ) || !parsed.unitClass )
+  {
+    return input;
+  }
+
+  var groups = parsed.unitClass.groups;
+  var conversions = parsed.conversions = [];
+
+  for (var i = 0; i < groups.length; i++)
+  {
+    var grp = groups[ i ];
+    var converted = parsed.convert( grp.unit );
+
+    if ( !isNumber( converted ) )
+    {
+      continue;
+    }
+
+    var fraction = new UnitzFraction( converted, grp.denominators, largestDenominator );
+
+    if ( isNumber( min ) && converted < min )
+    {
+      continue;
+    }
+
+    if ( isNumber( max ) && converted > max )
+    {
+      continue;
+    }
+
+    conversions.push(new UnitzConversion( converted, fraction, grp ));
+  }
+
+  return parsed;
+}
+
+function addClass(unitClass)
+{
+  classMap[ unitClass.className ] = unitClass;
+  classes.push( unitClass );
+
+  for (var unit in unitClass.converters)
+  {
+    units[ unit ] = unitClass;
+  }
+}

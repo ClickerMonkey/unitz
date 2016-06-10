@@ -1,5 +1,5 @@
 
-Unitz.addClass((function generateTimeClass()
+addClass((function generateTimeClass()
 {
   var uc = new UnitzClass( 'Time' );
 

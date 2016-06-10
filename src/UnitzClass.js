@@ -24,13 +24,7 @@ UnitzClass.prototype =
       baseUnit = this.bases[ relativeTo ];
     }
 
-    var group = {
-      unit: mainUnit,
-      units: units,
-      singular: singular,
-      plural: plural,
-      denominators: denominators
-    };
+    var group = new UnitzGroup( mainUnit, baseUnit, relativeValue, units, singular, plural, denominators );
 
     for (var i = 0; i < units.length; i++)
     {

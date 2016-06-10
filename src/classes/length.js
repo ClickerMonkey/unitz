@@ -1,5 +1,5 @@
 
-Unitz.addClass((function generateLengthClass()
+addClass((function generateLengthClass()
 {
   var uc = new UnitzClass( 'Length' );
 
