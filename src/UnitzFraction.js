@@ -27,8 +27,8 @@ function UnitzFraction(value, denominators, largestDenominator)
   this.denominator = denominator;
   this.actual = numerator / denominator;
   this.distance = distance;
-  this.whole = Math.floor( this.actual );
-  this.remainder = Math.round( (value - this.whole) * denominator );
+  this.whole = this.actual < 0 ? Math.ceil( this.actual) : Math.floor( this.actual );
+  this.remainder = Math.abs( Math.round( (value - this.whole) * denominator ) );
   this.valid = denominator !== 1 || isWhole( numerator );
   this.string = '';
 

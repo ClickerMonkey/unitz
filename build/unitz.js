@@ -69,7 +69,7 @@ function isArray(x)
 
 function isOne(x)
 {
-  return isNumber( x ) && Math.abs( x - 1 ) < Unitz.epsilon;
+  return isNumber( x ) && Math.abs( Math.abs( x ) - 1 ) < Unitz.epsilon;
 }
 
 function isWhole(x)
@@ -80,11 +80,6 @@ function isWhole(x)
 function isHeuristicMatch(unitA, unitB)
 {
   return unitA.substring( 0, Unitz.heuristicLength ) === unitB.substring( 0, Unitz.heuristicLength );
-}
-
-function getHeuristicUnit(unitA, unitB, value)
-{
-  return unitA.length > unitB.length && !isOne( value ) ? unitA : unitB;
 }
 
 function createNormal(value, unit)
@@ -153,7 +148,7 @@ function parse(input)
     }
     else if ( decimal )
     {
-      value += parseFloat( '0.' + decimal );
+      value += parseFloat( '0.' + decimal ) * (value < 0 ? -1 : 1);
     }
   }
 
@@ -246,6 +241,23 @@ function convert(input, unit, fraction)
   return value;
 }
 
+function findUnit(units, singular)
+{
+  var chosen = '';
+
+  for (var i = 0; i < units.length; i++)
+  {
+    var u = units[ i ];
+
+    if ( u.length && (chosen === '' || (singular && u.length < chosen.length) || (!singular && u.length > chosen.length) ) )
+    {
+      chosen = u;
+    }
+  }
+
+  return chosen;
+}
+
 function combine(inputA, inputB, fraction, largestDenominator)
 {
   var splitA = splitInput( inputA );
@@ -260,6 +272,8 @@ function combine(inputA, inputB, fraction, largestDenominator)
 
     if ( parsedInput !== false )
     {
+      parsedInput.units = [];
+      parsedInput.units.push( parsedInput.unit );
       parsed.push( parsedInput );
     }
   }
@@ -280,7 +294,6 @@ function combine(inputA, inputB, fraction, largestDenominator)
         parsed.splice( k, 1 );
 
         a.value += converted;
-        a.normal = a.group.addUnit( a.value );
       }
       // "a" or "b" doesn't have a unit
       else if ( !a.unit || !b.unit )
@@ -288,8 +301,7 @@ function combine(inputA, inputB, fraction, largestDenominator)
         parsed.splice( k, 1 );
 
         a.value += b.value;
-        a.unit = a.unit || b.unit;
-        a.normal = createNormal( a.value, a.unit );
+        a.units = a.units.concat( b.units );
       }
       // "a" and "b" have a similar enough unit.
       else if ( isHeuristicMatch( a.unit, b.unit ) )
@@ -297,8 +309,7 @@ function combine(inputA, inputB, fraction, largestDenominator)
         parsed.splice( k, 1 );
 
         a.value += b.value;
-        a.unit = getHeuristicUnit( a.unit, b.unit, a.value );
-        a.normal = createNormal( a.value, a.unit );
+        a.units = a.units.concat( b.units );
       }
     }
   }
@@ -307,7 +318,109 @@ function combine(inputA, inputB, fraction, largestDenominator)
 
   for (var i = 0; i < parsed.length; i++)
   {
-    var parsedBest = best( parsed[ i ], fraction, largestDenominator );
+    var a = parsed[ i ];
+
+    if ( a.group )
+    {
+      a.normal = a.group.addUnit( a.value );
+    }
+    else
+    {
+      a.unit = findUnit( a.units, isOne( a.value ) );
+      a.normal = createNormal( a.value, a.unit );
+    }
+
+    var parsedBest = best( a, fraction, largestDenominator );
+
+    if ( parsedBest && parsedBest.normal )
+    {
+      combined.push( parsedBest.normal );
+    }
+  }
+
+  return combined.join( Unitz.separatorJoin );
+}
+
+function subtract(inputA, inputB, allowNegatives, fraction, largestDenominator)
+{
+  var splitA = splitInput( inputA );
+  var splitB = splitInput( inputB );
+  var splitBoth = splitA.concat( splitB );
+  var parsed = [];
+
+  // Parse all inputs - ignore invalid inputs
+  for (var i = 0; i < splitBoth.length; i++)
+  {
+    var parsedInput = parseInput( splitBoth[ i ] );
+
+    if ( parsedInput !== false )
+    {
+      parsedInput.sign = i >= splitA.length ? -1 : 1;
+      parsedInput.units = [];
+      parsedInput.units.push( parsedInput.unit );
+      parsed.push( parsedInput );
+    }
+  }
+
+  // Try merging subsequent (k) parsed values into this one (i)
+  for (var i = 0; i < parsed.length - 1; i++)
+  {
+    var a = parsed[ i ];
+
+    for (var k = parsed.length - 1; k > i; k--)
+    {
+      var b = parsed[ k ];
+      var converted = b.convert( a.unit );
+      var sign = b.sign * a.sign;
+
+      // Same unit class. We can use proper singular/plural units.
+      if ( converted !== false && a.group )
+      {
+        parsed.splice( k, 1 );
+
+        a.value += converted * sign;
+      }
+      // "a" or "b" doesn't have a unit
+      else if ( !a.unit || !b.unit )
+      {
+        parsed.splice( k, 1 );
+
+        a.value += b.value * sign;
+        a.units = a.units.concat( b.units );
+      }
+      // "a" and "b" have a similar enough unit.
+      else if ( isHeuristicMatch( a.unit, b.unit ) )
+      {
+        parsed.splice( k, 1 );
+
+        a.value += b.value * sign;
+        a.units = a.units.concat( b.units );
+      }
+    }
+  }
+
+  var combined = [];
+
+  for (var i = 0; i < parsed.length; i++)
+  {
+    var a = parsed[ i ];
+
+    if ( a.value < 0 && !allowNegatives )
+    {
+      continue;
+    }
+
+    if ( a.group )
+    {
+      a.normal = a.group.addUnit( a.value );
+    }
+    else
+    {
+      a.unit = findUnit( a.units, isOne( a.value ) );
+      a.normal = createNormal( a.value, a.unit );
+    }
+
+    var parsedBest = best( a, fraction, largestDenominator );
 
     if ( parsedBest && parsedBest.normal )
     {
@@ -526,8 +639,8 @@ function UnitzFraction(value, denominators, largestDenominator)
   this.denominator = denominator;
   this.actual = numerator / denominator;
   this.distance = distance;
-  this.whole = Math.floor( this.actual );
-  this.remainder = Math.round( (value - this.whole) * denominator );
+  this.whole = this.actual < 0 ? Math.ceil( this.actual) : Math.floor( this.actual );
+  this.remainder = Math.abs( Math.round( (value - this.whole) * denominator ) );
   this.valid = denominator !== 1 || isWhole( numerator );
   this.string = '';
 
@@ -719,7 +832,7 @@ addClass((function generateWeightClass()
   Unitz.classes = classes;
   Unitz.classMap = classMap;
   Unitz.units = units;
-  Unitz.regex = /^\s*(\d*)(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i;
+  Unitz.regex = /^\s*(-?\d*)(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i;
   Unitz.epsilon = 0.001;
   Unitz.separator = ',';
   Unitz.separatorJoin = ', ';
@@ -731,11 +844,12 @@ addClass((function generateWeightClass()
   Unitz.best = best;
   Unitz.splitInput = splitInput;
   Unitz.combine = combine;
+  Unitz.subtract = subtract;
   Unitz.isHeuristicMatch = isHeuristicMatch;
-  Unitz.getHeuristicUnit = getHeuristicUnit;
   Unitz.conversions = conversions;
   Unitz.isOne = isOne;
   Unitz.isWhole = isWhole;
+  Unitz.findUnit = findUnit;
   Unitz.addClass = addClass;
 
   Unitz.Class = UnitzClass;

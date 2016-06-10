@@ -3,31 +3,40 @@ module( 'Unitz' );
 test( 'parse and convert', function(assert)
 {
   strictEqual( Unitz.parse('2c').convert('tbsp'), 32 );
+  strictEqual( Unitz.parse('-2c').convert('tbsp'), -32 );
   strictEqual( Unitz.parse('12in').convert('ft'), 1 );
+  strictEqual( Unitz.parse('-12in').convert('ft'), -1 );
   strictEqual( Unitz.parse('4 tbsp').convert('c', true).string, '1/4' );
+  strictEqual( Unitz.parse('-4 tbsp').convert('c', true).string, '-1/4' );
   strictEqual( Unitz.parse('4 tbsp').convert('cup', true, true).string, '1/4 cup' );
+  strictEqual( Unitz.parse('-4 tbsp').convert('cup', true, true).string, '-1/4 cup' );
   strictEqual( Unitz.parse('12 cm').convert('m', true).string, '1/10' );
+  strictEqual( Unitz.parse('-12 cm').convert('m', true).string, '-1/10' );
   strictEqual( Unitz.parse('1/4 cup').convert('tbsp'), 4 );
   strictEqual( Unitz.parse('0.25c').convert('tbsp'), 4 );
   strictEqual( Unitz.parse('2 min').convert('s'), 120 );
   strictEqual( Unitz.parse('13oz').convert('lb', true).string, '13/16' );
   strictEqual( Unitz.parse('72 square inches').convert('sqft'), 0.5 );
+  strictEqual( Unitz.parse('-72 square inches').convert('sqft'), -0.5 );
 });
 
 test( 'parse and best', function(assert)
 {
   strictEqual( Unitz.parse('2c').best().normal, '1 pint' );
+  strictEqual( Unitz.parse('-2c').best().normal, '-1 pint' );
   strictEqual( Unitz.parse('12in').best().normal, '1 foot' );
   strictEqual( Unitz.parse('4 tbsp').best().normal, '2 fluid ounces' );
   strictEqual( Unitz.parse('1/4 cup').best().normal, '2 fluid ounces' );
   strictEqual( Unitz.parse('2 min').best().normal, '2 minutes' );
   strictEqual( Unitz.parse('13/16lbs').best().normal, '13 ounces' );
+  strictEqual( Unitz.parse('-13/16lbs').best().normal, '-13 ounces' );
 });
 
 test( 'best', function(assert)
 {
   strictEqual( Unitz.best('0.5qt').normal, '1 pint' );
   strictEqual( Unitz.best('1.5ft').normal, '18 inches' );
+  strictEqual( Unitz.best('-1.5ft').normal, '-18 inches' );
 });
 
 test( 'combine', function(assert)
@@ -38,6 +47,14 @@ test( 'combine', function(assert)
   strictEqual( Unitz.combine( '2, 3 tacos, 4', '1 taco' ), '10 tacos' );
   strictEqual( Unitz.combine( '1 pint', '2 cup' ), '1 quart' );
   strictEqual( Unitz.combine( '2 bags, 2 cup', '1 pint, 1 bag' ), '3 bags, 1 quart' );
+});
+
+test( 'subtract', function(assert)
+{
+  strictEqual( Unitz.subtract( '1 cup', '2 cups' ), '' );
+  strictEqual( Unitz.subtract( '1 loaf', '2 loaves', true ), '-1 loaf' ); // heuristic matching
+  strictEqual( Unitz.subtract( '1 pint', 'cup' ), '1 cup' );
+  strictEqual( Unitz.subtract( '2 bags, 3 cup', '1 pint, 1 bag' ), '1 bag, 1 cup' );
 });
 
 test( 'conversions simple', function(assert)

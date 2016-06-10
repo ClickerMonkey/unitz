@@ -4,7 +4,7 @@
   Unitz.classes = classes;
   Unitz.classMap = classMap;
   Unitz.units = units;
-  Unitz.regex = /^\s*(\d*)(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i;
+  Unitz.regex = /^\s*(-?\d*)(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i;
   Unitz.epsilon = 0.001;
   Unitz.separator = ',';
   Unitz.separatorJoin = ', ';
@@ -16,11 +16,12 @@
   Unitz.best = best;
   Unitz.splitInput = splitInput;
   Unitz.combine = combine;
+  Unitz.subtract = subtract;
   Unitz.isHeuristicMatch = isHeuristicMatch;
-  Unitz.getHeuristicUnit = getHeuristicUnit;
   Unitz.conversions = conversions;
   Unitz.isOne = isOne;
   Unitz.isWhole = isWhole;
+  Unitz.findUnit = findUnit;
   Unitz.addClass = addClass;
 
   Unitz.Class = UnitzClass;
