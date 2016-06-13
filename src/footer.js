@@ -1,9 +1,7 @@
 
-  var Unitz = {};
-
   Unitz.classes = classes;
   Unitz.classMap = classMap;
-  Unitz.units = units;
+  Unitz.unitToClass = unitToClass;
   Unitz.regex = /^\s*(-?\d*)(\s+(\d+))?(\/(\d+)|\.(\d+)|)\s*(.*)\s*$/i;
   Unitz.epsilon = 0.001;
   Unitz.separator = ',';
@@ -19,7 +17,7 @@
   Unitz.subtract = subtract;
   Unitz.isHeuristicMatch = isHeuristicMatch;
   Unitz.conversions = conversions;
-  Unitz.isOne = isOne;
+  Unitz.isSingular = isSingular;
   Unitz.isWhole = isWhole;
   Unitz.findUnit = findUnit;
   Unitz.addClass = addClass;

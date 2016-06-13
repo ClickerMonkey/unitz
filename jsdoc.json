@@ -1,0 +1,35 @@
+{
+  "source": {
+    "include": [
+      "src/UnitzClass.js",
+      "src/UnitzConversion.js",
+      "src/UnitzFraction.js",
+      "src/UnitzGroup.js",
+      "src/UnitzParsed.js",
+      "src/Unitz.js",
+      "src/classes/"
+    ]
+  },
+  "templates": {
+    "applicationName": "Unitz",
+    "linenums": true,
+    "cleverLinks": true,
+    "default": {
+      "outputSourceFiles": true
+    }
+  },
+  "opts": {
+    "destination": "../unitz-docs/",
+    "recurse": "true",
+    "template": "./node_modules/jaguarjs-jsdoc",
+    "readme": "./README.md",
+    "pedantic": true,
+    "debug": true
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "tags": {
+    "allowUnknownTags": true
+  }
+}

@@ -20,7 +20,3 @@
   }
 }(this, function()
 {
-
-  var classes = [];
-  var classMap = {};
-  var units = {};

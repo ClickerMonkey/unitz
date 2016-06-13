@@ -86,7 +86,7 @@ test( 'conversions simple', function(assert)
 
 test( 'conversions range', function(assert)
 {
-  var conversions = Unitz.conversions('2.25 hrs', false, 0.1, 1000).conversions;
+  var conversions = Unitz.conversions('2.25 hrs', 0.1, 1000).conversions;
 
   strictEqual( conversions.length, 2 );
   strictEqual( conversions[0].longNormal, '135 minutes' );
@@ -95,13 +95,13 @@ test( 'conversions range', function(assert)
 
 test( 'conversions volume', function(assert)
 {
-  var conversions = Unitz.conversions('1/4c', false, 0.1, 10).conversions;
+  var conversions = Unitz.conversions('1/4c', 0.1, 10).conversions;
 
   strictEqual( conversions.length, 5 );
   strictEqual( conversions[0].longNormal, '4 tablespoons' );
   strictEqual( conversions[1].longNormal, '2 fluid ounces' );
-  strictEqual( conversions[2].longNormal, '1/4 cups' );
-  strictEqual( conversions[3].longNormal, '1/8 pints' );
+  strictEqual( conversions[2].longNormal, '1/4 cup' );
+  strictEqual( conversions[3].longNormal, '1/8 pint' );
   strictEqual( conversions[4].longNormal, '3 5/8 cubic inches' );
 });
 
@@ -110,17 +110,17 @@ test( 'toFraction', function(assert)
   strictEqual( new Unitz.Fraction( 1 / 3, [2, 3, 6, 12] ).string, '1/3' );
   strictEqual( new Unitz.Fraction( 1 / 3, [2, 6, 12] ).string, '2/6' );
   strictEqual( new Unitz.Fraction( 5 / 3, [2, 3] ).string, '1 2/3' );
-  strictEqual( new Unitz.Fraction( 4, [2, 4, 8, 16] ).string, 4 );
+  strictEqual( new Unitz.Fraction( 4, [2, 4, 8, 16] ).string, '4' );
   strictEqual( new Unitz.Fraction( 1 / 8, [2, 3, 4, 5, 6, 7, 8] ).string, '1/8' );
   strictEqual( new Unitz.Fraction( 1 / 8, [2, 3, 4, 5, 6, 7, 8], 6 ).string, '1/6' );
-  strictEqual( new Unitz.Fraction( 1 / 100, [2, 3, 4] ).string, 0.01 );
+  strictEqual( new Unitz.Fraction( 1 / 100, [2, 3, 4] ).string, '0.01' );
 });
 
-test( 'isOne', function(assert)
+test( 'isSingular', function(assert)
 {
-  ok( Unitz.isOne( 1 ) );
-  ok( Unitz.isOne( 1.000001 ) );
-  ok( Unitz.isOne( 0.999999 ) );
-  notOk( Unitz.isOne( 1.01 ) );
-  notOk( Unitz.isOne( 0.99 ) );
+  ok( Unitz.isSingular( 1 ) );
+  ok( Unitz.isSingular( 1.000001 ) );
+  ok( Unitz.isSingular( 0.999999 ) );
+  notOk( Unitz.isSingular( 1.01 ) );
+  notOk( Unitz.isSingular( 0.99 ) );
 });
