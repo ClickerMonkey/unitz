@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Class: Fraction</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/jaguar.css">
+    
+    
+    <script>
+    var config = {"monospaceLinks":false,"cleverLinks":true,"applicationName":"Unitz","linenums":true,"default":{"outputSourceFiles":true}};
+    </script>
+    
+
+    
+</head>
+<body>
+<div id="wrap" class="clearfix">
+    
+<div class="navigation">
+    <h3 class="applicationName"><a href="index.html">Unitz</a></h3>
+
+    <div class="search">
+        <input id="search" type="text" class="form-control input-sm" placeholder="Search Documentations">
+    </div>
+    <ul class="list">
+    
+        <li class="item" data-name="Unitz">
+            <span class="title">
+                <a href="Unitz.html">Unitz</a>
+                
+                <span class="static">static</span>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Unitz.classes"><a href="Unitz.html#.classes">classes</a></li>
+            
+                <li data-name="Unitz.classMap"><a href="Unitz.html#.classMap">classMap</a></li>
+            
+                <li data-name="Unitz.unitToClass"><a href="Unitz.html#.unitToClass">unitToClass</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Unitz.addClass"><a href="Unitz.html#.addClass">addClass</a></li>
+            
+                <li data-name="Unitz.best"><a href="Unitz.html#.best">best</a></li>
+            
+                <li data-name="Unitz.combine"><a href="Unitz.html#.combine">combine</a></li>
+            
+                <li data-name="Unitz.conversions"><a href="Unitz.html#.conversions">conversions</a></li>
+            
+                <li data-name="Unitz.convert"><a href="Unitz.html#.convert">convert</a></li>
+            
+                <li data-name="Unitz.createNormal"><a href="Unitz.html#.createNormal">createNormal</a></li>
+            
+                <li data-name="Unitz.findUnit"><a href="Unitz.html#.findUnit">findUnit</a></li>
+            
+                <li data-name="Unitz.isHeuristicMatch"><a href="Unitz.html#.isHeuristicMatch">isHeuristicMatch</a></li>
+            
+                <li data-name="Unitz.isSingular"><a href="Unitz.html#.isSingular">isSingular</a></li>
+            
+                <li data-name="Unitz.isWhole"><a href="Unitz.html#.isWhole">isWhole</a></li>
+            
+                <li data-name="Unitz.parse"><a href="Unitz.html#.parse">parse</a></li>
+            
+                <li data-name="Unitz.parseInput"><a href="Unitz.html#.parseInput">parseInput</a></li>
+            
+                <li data-name="Unitz.splitInput"><a href="Unitz.html#.splitInput">splitInput</a></li>
+            
+                <li data-name="Unitz.subtract"><a href="Unitz.html#.subtract">subtract</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Unitz.Class">
+            <span class="title">
+                <a href="Unitz.Class.html">Unitz.Class</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Unitz.Class#bases"><a href="Unitz.Class.html#bases">bases</a></li>
+            
+                <li data-name="Unitz.Class#className"><a href="Unitz.Class.html#className">className</a></li>
+            
+                <li data-name="Unitz.Class#converters"><a href="Unitz.Class.html#converters">converters</a></li>
+            
+                <li data-name="Unitz.Class#groupMap"><a href="Unitz.Class.html#groupMap">groupMap</a></li>
+            
+                <li data-name="Unitz.Class#groups"><a href="Unitz.Class.html#groups">groups</a></li>
+            
+                <li data-name="Unitz.Class#mapping"><a href="Unitz.Class.html#mapping">mapping</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Unitz.Class#addBaseConversion"><a href="Unitz.Class.html#addBaseConversion">addBaseConversion</a></li>
+            
+                <li data-name="Unitz.Class#addGroup"><a href="Unitz.Class.html#addGroup">addGroup</a></li>
+            
+                <li data-name="Unitz.Class#addOneBaseConversion"><a href="Unitz.Class.html#addOneBaseConversion">addOneBaseConversion</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Unitz.Conversion">
+            <span class="title">
+                <a href="Unitz.Conversion.html">Unitz.Conversion</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Unitz.Conversion#decimal"><a href="Unitz.Conversion.html#decimal">decimal</a></li>
+            
+                <li data-name="Unitz.Conversion#fraction"><a href="Unitz.Conversion.html#fraction">fraction</a></li>
+            
+                <li data-name="Unitz.Conversion#friendly"><a href="Unitz.Conversion.html#friendly">friendly</a></li>
+            
+                <li data-name="Unitz.Conversion#group"><a href="Unitz.Conversion.html#group">group</a></li>
+            
+                <li data-name="Unitz.Conversion#longNormal"><a href="Unitz.Conversion.html#longNormal">longNormal</a></li>
+            
+                <li data-name="Unitz.Conversion#longUnit"><a href="Unitz.Conversion.html#longUnit">longUnit</a></li>
+            
+                <li data-name="Unitz.Conversion#shortNormal"><a href="Unitz.Conversion.html#shortNormal">shortNormal</a></li>
+            
+                <li data-name="Unitz.Conversion#shortUnit"><a href="Unitz.Conversion.html#shortUnit">shortUnit</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Unitz.Fraction">
+            <span class="title">
+                <a href="Unitz.Fraction.html">Unitz.Fraction</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Unitz.Fraction#actual"><a href="Unitz.Fraction.html#actual">actual</a></li>
+            
+                <li data-name="Unitz.Fraction#denominator"><a href="Unitz.Fraction.html#denominator">denominator</a></li>
+            
+                <li data-name="Unitz.Fraction#distance"><a href="Unitz.Fraction.html#distance">distance</a></li>
+            
+                <li data-name="Unitz.Fraction#numerator"><a href="Unitz.Fraction.html#numerator">numerator</a></li>
+            
+                <li data-name="Unitz.Fraction#remainder"><a href="Unitz.Fraction.html#remainder">remainder</a></li>
+            
+                <li data-name="Unitz.Fraction#string"><a href="Unitz.Fraction.html#string">string</a></li>
+            
+                <li data-name="Unitz.Fraction#valid"><a href="Unitz.Fraction.html#valid">valid</a></li>
+            
+                <li data-name="Unitz.Fraction#value"><a href="Unitz.Fraction.html#value">value</a></li>
+            
+                <li data-name="Unitz.Fraction#whole"><a href="Unitz.Fraction.html#whole">whole</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Unitz.Fraction#isSingular"><a href="Unitz.Fraction.html#isSingular">isSingular</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Unitz.Group">
+            <span class="title">
+                <a href="Unitz.Group.html">Unitz.Group</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Unitz.Group#baseScale"><a href="Unitz.Group.html#baseScale">baseScale</a></li>
+            
+                <li data-name="Unitz.Group#baseUnit"><a href="Unitz.Group.html#baseUnit">baseUnit</a></li>
+            
+                <li data-name="Unitz.Group#denominators"><a href="Unitz.Group.html#denominators">denominators</a></li>
+            
+                <li data-name="Unitz.Group#plural"><a href="Unitz.Group.html#plural">plural</a></li>
+            
+                <li data-name="Unitz.Group#singular"><a href="Unitz.Group.html#singular">singular</a></li>
+            
+                <li data-name="Unitz.Group#unit"><a href="Unitz.Group.html#unit">unit</a></li>
+            
+                <li data-name="Unitz.Group#units"><a href="Unitz.Group.html#units">units</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Unitz.Group#addUnit"><a href="Unitz.Group.html#addUnit">addUnit</a></li>
+            
+                <li data-name="Unitz.Group#getUnit"><a href="Unitz.Group.html#getUnit">getUnit</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Unitz.Parsed">
+            <span class="title">
+                <a href="Unitz.Parsed.html">Unitz.Parsed</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Unitz.Parsed#group"><a href="Unitz.Parsed.html#group">group</a></li>
+            
+                <li data-name="Unitz.Parsed#normal"><a href="Unitz.Parsed.html#normal">normal</a></li>
+            
+                <li data-name="Unitz.Parsed#unit"><a href="Unitz.Parsed.html#unit">unit</a></li>
+            
+                <li data-name="Unitz.Parsed#unitClass"><a href="Unitz.Parsed.html#unitClass">unitClass</a></li>
+            
+                <li data-name="Unitz.Parsed#value"><a href="Unitz.Parsed.html#value">value</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Unitz.Parsed.fromNumber"><a href="Unitz.Parsed.html#.fromNumber">fromNumber</a></li>
+            
+                <li data-name="Unitz.Parsed#best"><a href="Unitz.Parsed.html#best">best</a></li>
+            
+                <li data-name="Unitz.Parsed#convert"><a href="Unitz.Parsed.html#convert">convert</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+    </ul>
+</div>
+    <div class="main">
+        <h1 class="page-title" data-filename="Unitz.Fraction.html">Class: Fraction</h1>
+        
+
+
+
+<section>
+    
+<header>
+    <h2>
+        <span class="ancestors"><a href="Unitz.html">Unitz</a>.</span>
+    
+    Fraction
+    </h2>
+    
+</header>  
+
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="Fraction">
+            
+            new Unitz.Fraction<span class="signature">(value, denominators, <span class="optional">largestDenominator</span>)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="UnitzFraction.js.html">UnitzFraction.js</a>, <a href="UnitzFraction.js.html#line38">line 38</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Instantiates and builds a fraction from a number given the denominators to
+use and the largest denominator to look at for this instance.</p>
+<p>The fraction is calculated by using each of the denominators given and
+calculating the nearest fraction - the denoninator that results in the
+fraction closest to the given value is used. If no denominators are given or
+the value is closer to a whole number than to any other fraction then the
+fraction will have a denominator of one. If no fractions can be calculated
+that leaves the resulting value within {@Unitz.epsilon} then this fraction
+will be marked as &quot;invalid&quot;.</p>
+<pre class="prettyprint source lang-javascript"><code>new Unitz.Fraction( 0.5, [2, 3, 4] ).string; // '1/2'
+new Unitz.Fraction( 1.5, [2, 3, 4] ).string; // '1 1/2'
+new Unitz.Fraction( 0.25, [2, 3, 4] ).string; // '1/4'
+new Unitz.Fraction( 0.125, [2, 3, 4] ).string; // 0.125
+new Unitz.Fraction( 0.125, [2, 3, 4, 8] ).string; // '1/8'</code></pre>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                <p>A number to build a fraction for.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>denominators</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Number></span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                <p>The array of denominators to use when converting the given value into a
+   fraction.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>largestDenominator</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                <p>Sometimes you don't want to use all of the denominators in the above array
+   (it could be from a <a href="Unitz.Group.html"><code>Unitz.Group</code></a>) and you would like to set a max.
+   If the denominators given has something like <code>[2, 4, 8, 100]</code> and you
+   don't want a fraction like <code>3/100</code> you can set the <code>largestDenominator</code> to
+   a number lower than 100 and you won't ever get that denominator.</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Members</h3>
+        
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="actual">actual<span class="type-signature type number">Number</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The actual value of the fraction (numerator / denominator).</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="denominator">denominator<span class="type-signature type number">Number</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The calculated denominator of the fraction. If this fraction is not valid
+this will be a 1 (valid fractions can also have a denoninator of 1 if the
+given <code>value</code> is a whole number).</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="distance">distance<span class="type-signature type number">Number</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The distance the calculated fraction value (<code>actual</code>) is from the <code>value</code>
+given in the constructor.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="numerator">numerator<span class="type-signature type number">Number</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The calculated numerator of the fraction. If the fraction is negative this
+number will be negative. If this fraction is not valid - this will be the
+<code>value</code> passed into the constructor.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="remainder">remainder</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The remainder is the part that goes over the denominator when the fraction
+has a whole number (when <code>|value|</code> is over 1).</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="string">string</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The string representation of this fraction. If the denominator is &quot;1&quot; or
+the fraction is invalid then the <code>numerator</code> is returned. If the fraction
+has a whole number component then <code>whole remainder/denominator</code> is returned
+otherwise <code>numerator/denominator</code> is returned.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="valid">valid</h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Whether or not the fraction is valid. A Fraction is valid when a fraction
+could be calculated that is within <code>Unitz.epsilon</code> of the <code>value</code>
+given to the constructor.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="value">value<span class="type-signature type number">Number</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The <code>value</code> passed to the fraction constructor.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="whole">whole<span class="type-signature type number">Number</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The whole number calculated for the fraction. This will be zero for values
+less than 1 and greater than -1.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="isSingular">
+            
+            isSingular<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="UnitzFraction.js.html">UnitzFraction.js</a>, <a href="UnitzFraction.js.html#line166">line 166</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Determines whether this fraction represents a singular value. Fractions are
+handled differently than numbers - a number must be equal to 1 or -1 but
+a fraction can be singular if between 1 and -1. This ensures that
+expressions like describing &quot;0.5 miles&quot; in fraction form &quot;1/2 mile&quot; makes
+sense.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+
+
+<h5>Returns:</h5>
+  Returns 1 if this fraction describes a singular amount, otherwise 0.
+<br />
+
+    
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+    
+    
+</article>
+
+</section>  
+
+
+
+
+
+        
+
+        <footer>
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Jun 13 2016 01:25:49 GMT-0400 (EDT)
+        </footer>
+    </div>
+</div>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+<script src="scripts/main.js"></script>
+</body>
+</html>
