@@ -3,6 +3,7 @@
   "version": "0.4.1",
   "description": "A unit parser, converter, & combiner in JS",
   "author": "Philip Diffenderfer",
+  "main": "src/Unitz.js",
   "license": "MIT",
   "repository": {
     "type": "git",
