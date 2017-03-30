@@ -65,6 +65,8 @@
             
                 <li data-name="Unitz.combine"><a href="Unitz.html#.combine">combine</a></li>
             
+                <li data-name="Unitz.compound"><a href="Unitz.html#.compound">compound</a></li>
+            
                 <li data-name="Unitz.conversions"><a href="Unitz.html#.conversions">conversions</a></li>
             
                 <li data-name="Unitz.convert"><a href="Unitz.html#.convert">convert</a></li>
@@ -82,6 +84,10 @@
                 <li data-name="Unitz.parse"><a href="Unitz.html#.parse">parse</a></li>
             
                 <li data-name="Unitz.parseInput"><a href="Unitz.html#.parseInput">parseInput</a></li>
+            
+                <li data-name="Unitz.removeGroup"><a href="Unitz.html#.removeGroup">removeGroup</a></li>
+            
+                <li data-name="Unitz.removeUnit"><a href="Unitz.html#.removeUnit">removeUnit</a></li>
             
                 <li data-name="Unitz.splitInput"><a href="Unitz.html#.splitInput">splitInput</a></li>
             
@@ -127,6 +133,10 @@
                 <li data-name="Unitz.Class#addGroup"><a href="Unitz.Class.html#addGroup">addGroup</a></li>
             
                 <li data-name="Unitz.Class#addOneBaseConversion"><a href="Unitz.Class.html#addOneBaseConversion">addOneBaseConversion</a></li>
+            
+                <li data-name="Unitz.Class#removeGroup"><a href="Unitz.Class.html#removeGroup">removeGroup</a></li>
+            
+                <li data-name="Unitz.Class#removeUnit"><a href="Unitz.Class.html#removeUnit">removeUnit</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -288,6 +298,8 @@
             
                 <li data-name="Unitz.Parsed#convert"><a href="Unitz.Parsed.html#convert">convert</a></li>
             
+                <li data-name="Unitz.Parsed#fraction"><a href="Unitz.Parsed.html#fraction">fraction</a></li>
+            
             </ul>
             <ul class="events itemMembers">
             
@@ -402,10 +414,15 @@ UnitzParsed.prototype =
    *    the valid fraction denominators for the unit) you can specify which
    *    denominators to use when calculating the nearest fraction to the
    *    converted value.
+   * @param {Boolean} [roundDown=false] -
+   *    A fraction will try to find the closest value to `value` - sometimes the
+   *    closest fraction is larger than the given `value` and it is used. You can
+   *    pass true to this constructor and it will make sure the fraction determined
+   *    is never over the given `value`.
    * @see Unitz.Fraction
    * @return {Number|String|Unitz.Fraction|false}
    */
-  convert: function(to, returnFraction, withUnit, largestDenominator, classlessDenominators)
+  convert: function(to, returnFraction, withUnit, largestDenominator, classlessDenominators, roundDown)
   {
     var converted = convert( this, to );
 
@@ -415,7 +432,7 @@ UnitzParsed.prototype =
 
       if ( isArray( denominators ) )
       {
-        converted = new UnitzFraction( converted, denominators, largestDenominator );
+        converted = new UnitzFraction( converted, denominators, largestDenominator, roundDown );
 
         if ( isObject( converted ) &amp;&amp; withUnit &amp;&amp; to )
         {
@@ -446,6 +463,45 @@ UnitzParsed.prototype =
   best: function(returnFraction, largestDenominator)
   {
     return best( this, returnFraction, largestDenominator );
+  },
+
+  /**
+   * Returns the fraction representation of this parsed value.
+   *
+   * @param {Boolean} [withUnit=false] -
+   *    If the {@link Unitz.Fraction#string} property should have the unit added
+   *    to it.
+   * @param {Number[]} [denominators] -
+   *    The array of denominators to use when converting the given value into a
+   *    fraction. If a falsy value is given the denonimators of this parsed group
+   *    will be used if a unit group has been determined.
+   * @param {Number} [largestDenominator] -
+   *    Sometimes you don't want to use all of the denominators in the above array
+   *    (it could be from a {@link Unitz.Group}) and you would like to set a max.
+   *    If the denominators given has something like `[2, 4, 8, 100]` and you
+   *    don't want a fraction like `3/100` you can set the `largestDenominator` to
+   *    a number lower than 100 and you won't ever get that denominator.
+   * @param {Boolean} [roundDown=false] -
+   *    A fraction will try to find the closest value to `value` - sometimes the
+   *    closest fraction is larger than the given `value` and it is used. You can
+   *    pass true to this constructor and it will make sure the fraction determined
+   *    is never over the given `value`.
+   * @return {Unitz.Fraction} -
+   *    A new instance of Unitz.Fraction which is a representation of the parsed
+   *    value.
+   */
+  fraction: function(withUnit, denominators, largestDenominator, roundDown)
+  {
+    var groupDenominators = this.group ? this.group.denominators : [];
+    var fractionDenominators = denominators || groupDenominators;
+    var fraction = new UnitzFraction( this.value, fractionDenominators, largestDenominator, roundDown );
+
+    if (withUnit)
+    {
+      fraction.string = createNormal( fraction.string, this.unit );
+    }
+
+    return fraction;
   }
 
 };
@@ -475,7 +531,7 @@ UnitzParsed.fromNumber = function(number)
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Jun 13 2016 01:25:49 GMT-0400 (EDT)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Mar 30 2017 17:37:46 GMT-0400 (EDT)
         </footer>
     </div>
 </div>

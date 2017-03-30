@@ -65,6 +65,8 @@
             
                 <li data-name="Unitz.combine"><a href="Unitz.html#.combine">combine</a></li>
             
+                <li data-name="Unitz.compound"><a href="Unitz.html#.compound">compound</a></li>
+            
                 <li data-name="Unitz.conversions"><a href="Unitz.html#.conversions">conversions</a></li>
             
                 <li data-name="Unitz.convert"><a href="Unitz.html#.convert">convert</a></li>
@@ -82,6 +84,10 @@
                 <li data-name="Unitz.parse"><a href="Unitz.html#.parse">parse</a></li>
             
                 <li data-name="Unitz.parseInput"><a href="Unitz.html#.parseInput">parseInput</a></li>
+            
+                <li data-name="Unitz.removeGroup"><a href="Unitz.html#.removeGroup">removeGroup</a></li>
+            
+                <li data-name="Unitz.removeUnit"><a href="Unitz.html#.removeUnit">removeUnit</a></li>
             
                 <li data-name="Unitz.splitInput"><a href="Unitz.html#.splitInput">splitInput</a></li>
             
@@ -127,6 +133,10 @@
                 <li data-name="Unitz.Class#addGroup"><a href="Unitz.Class.html#addGroup">addGroup</a></li>
             
                 <li data-name="Unitz.Class#addOneBaseConversion"><a href="Unitz.Class.html#addOneBaseConversion">addOneBaseConversion</a></li>
+            
+                <li data-name="Unitz.Class#removeGroup"><a href="Unitz.Class.html#removeGroup">removeGroup</a></li>
+            
+                <li data-name="Unitz.Class#removeUnit"><a href="Unitz.Class.html#removeUnit">removeUnit</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -287,6 +297,8 @@
                 <li data-name="Unitz.Parsed#best"><a href="Unitz.Parsed.html#best">best</a></li>
             
                 <li data-name="Unitz.Parsed#convert"><a href="Unitz.Parsed.html#convert">convert</a></li>
+            
+                <li data-name="Unitz.Parsed#fraction"><a href="Unitz.Parsed.html#fraction">fraction</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -558,7 +570,7 @@ generate conversions for all units in the same &quot;class&quot;.</p></div>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line754">line 754</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line886">line 886</a>
         </div>
         
     </div>
@@ -675,7 +687,7 @@ class to be available for parsing.</p>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line294">line 294</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line426">line 426</a>
         </div>
         
     </div>
@@ -890,7 +902,7 @@ Unitz.best('2640 ft', true); // '1/2 mile'</code></pre>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line480">line 480</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line612">line 612</a>
         </div>
         
     </div>
@@ -1140,6 +1152,188 @@ Unitz.combine( '3 cups, 1 bag', '2 bags, 12 tacos' ); // `3 cups, 3 bags, 12 tac
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id=".compound">
+            
+            <span class="type-signature static">static</span>Unitz.compound<span class="signature">(input, <span class="optional">unitsAllowed</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{String}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line340">line 340</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Parses a number and unit out of the given string and returns a human friendly
+representation of the number and unit class - which is known as a compound
+representation because it can contain as many units as necessary to
+accurately describe the value. This is especially useful when you want
+precise amounts for a fractional value.</p>
+<pre class="prettyprint source lang-javascript"><code>Unitz.compound('2 cups', ['pt', 'c']); // '1 pt'
+Unitz.compound('2 cups', ['c', 'tbsp']); // '2 c'
+Unitz.compound('0.625 cups', ['c', 'tbsp', 'tsp']); // '1/2 c, 2 tbsp'
+Unitz.compound('1.342 cups', ['c', 'tbsp', 'tsp']); // '1 c, 5 tbsp, 1 tsp'</code></pre>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>input</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                    
+                        
+                    
+                
+                <p>The input to parse a number &amp; unit from.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>unitsAllowed</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;String></span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                <p>The units to be restricted to use. This can be used to avoid using
+   undesirable units in the output. If this is not given, then all units for
+   the parsed input may be used.</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+
+
+<h5>Returns:</h5>
+  The compound string built from the input.
+<br />
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id=".conversions">
             
             <span class="type-signature static">static</span>Unitz.conversions<span class="signature">(input, <span class="optional">min</span>, <span class="optional">max</span>, <span class="optional">largestDenominator</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="Unitz.Parsed.html">Unitz.Parsed</a>}</span>
@@ -1147,7 +1341,7 @@ Unitz.combine( '3 cups, 1 bag', '2 bags, 12 tacos' ); // `3 cups, 3 bags, 12 tac
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line706">line 706</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line838">line 838</a>
         </div>
         
     </div>
@@ -1373,7 +1567,7 @@ numbers to only return human friendly conversions.</p>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line376">line 376</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line508">line 508</a>
         </div>
         
     </div>
@@ -1525,7 +1719,7 @@ Unitz.convert('2 1/2 gal', 'qt'); // 10</code></pre>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line142">line 142</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line189">line 189</a>
         </div>
         
     </div>
@@ -1689,7 +1883,7 @@ have a unit then the value is returned immediately.</p>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line438">line 438</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line570">line 570</a>
         </div>
         
     </div>
@@ -1839,7 +2033,7 @@ singular unit is the shorter string and the plural unit is the longer string.</p
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line125">line 125</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line172">line 172</a>
         </div>
         
     </div>
@@ -1993,7 +2187,7 @@ Unitz.isHeuristicMatch('pk', 'pack'); // false</code></pre>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line86">line 86</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line133">line 133</a>
         </div>
         
     </div>
@@ -2120,7 +2314,7 @@ version of a unit.</p>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line100">line 100</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line147">line 147</a>
         </div>
         
     </div>
@@ -2245,7 +2439,7 @@ version of a unit.</p>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line225">line 225</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line272">line 272</a>
         </div>
         
     </div>
@@ -2379,7 +2573,7 @@ Unitz.parse(''); // false</code></pre>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line186">line 186</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line233">line 233</a>
         </div>
         
     </div>
@@ -2498,6 +2692,259 @@ given input cannot be parsed then <code>false</code> is returned.</p>
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id=".removeGroup">
+            
+            <span class="type-signature static">static</span>Unitz.removeGroup<span class="signature">(unit)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line110">line 110</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Removes the group which has the given unit. The group will be removed
+entirely from the system and can no longer be parsed or converted to and
+from.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>unit</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                <p>The lowercase unit of the group to remove.</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+
+
+<h5>Returns:</h5>
+  True if the group was removed, false if it does not exist in this class.
+<br />
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".removeUnit">
+            
+            <span class="type-signature static">static</span>Unitz.removeUnit<span class="signature">(unit)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line86">line 86</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Removes a unit from its class. The group the unit to still exists in the
+class, but the unit won't be parsed to the group anymore.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>unit</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                <p>The lowercase unit to remove from this class.</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+
+
+<h5>Returns:</h5>
+  True if the unit was removed, false if it does not exist in this class.
+<br />
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id=".splitInput">
             
             <span class="type-signature static">static</span>Unitz.splitInput<span class="signature">(<span class="optional">input</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Array}</span>
@@ -2505,7 +2952,7 @@ given input cannot be parsed then <code>false</code> is returned.</p>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line158">line 158</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line205">line 205</a>
         </div>
         
     </div>
@@ -2652,7 +3099,7 @@ given input cannot be parsed then <code>false</code> is returned.</p>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line592">line 592</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line724">line 724</a>
         </div>
         
     </div>
@@ -2953,7 +3400,7 @@ Unitz.subtract( '3 cups, 1 bag', '2 bags, 12 tacos' ); // `3 cups'</code></pre>
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Jun 13 2016 01:25:49 GMT-0400 (EDT)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Mar 30 2017 17:37:46 GMT-0400 (EDT)
         </footer>
     </div>
 </div>

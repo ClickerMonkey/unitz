@@ -65,6 +65,8 @@
             
                 <li data-name="Unitz.combine"><a href="Unitz.html#.combine">combine</a></li>
             
+                <li data-name="Unitz.compound"><a href="Unitz.html#.compound">compound</a></li>
+            
                 <li data-name="Unitz.conversions"><a href="Unitz.html#.conversions">conversions</a></li>
             
                 <li data-name="Unitz.convert"><a href="Unitz.html#.convert">convert</a></li>
@@ -82,6 +84,10 @@
                 <li data-name="Unitz.parse"><a href="Unitz.html#.parse">parse</a></li>
             
                 <li data-name="Unitz.parseInput"><a href="Unitz.html#.parseInput">parseInput</a></li>
+            
+                <li data-name="Unitz.removeGroup"><a href="Unitz.html#.removeGroup">removeGroup</a></li>
+            
+                <li data-name="Unitz.removeUnit"><a href="Unitz.html#.removeUnit">removeUnit</a></li>
             
                 <li data-name="Unitz.splitInput"><a href="Unitz.html#.splitInput">splitInput</a></li>
             
@@ -127,6 +133,10 @@
                 <li data-name="Unitz.Class#addGroup"><a href="Unitz.Class.html#addGroup">addGroup</a></li>
             
                 <li data-name="Unitz.Class#addOneBaseConversion"><a href="Unitz.Class.html#addOneBaseConversion">addOneBaseConversion</a></li>
+            
+                <li data-name="Unitz.Class#removeGroup"><a href="Unitz.Class.html#removeGroup">removeGroup</a></li>
+            
+                <li data-name="Unitz.Class#removeUnit"><a href="Unitz.Class.html#removeUnit">removeUnit</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -288,6 +298,8 @@
             
                 <li data-name="Unitz.Parsed#convert"><a href="Unitz.Parsed.html#convert">convert</a></li>
             
+                <li data-name="Unitz.Parsed#fraction"><a href="Unitz.Parsed.html#fraction">fraction</a></li>
+            
             </ul>
             <ul class="events itemMembers">
             
@@ -323,12 +335,12 @@
     <div class="nameContainer">
         <h4 class="name" id="Fraction">
             
-            new Unitz.Fraction<span class="signature">(value, denominators, <span class="optional">largestDenominator</span>)</span>
+            new Unitz.Fraction<span class="signature">(value, denominators, <span class="optional">largestDenominator</span>, <span class="optional">roundDown</span>)</span>
         </h4>
     
         
         <div class="tag-source">
-            <a href="UnitzFraction.js.html">UnitzFraction.js</a>, <a href="UnitzFraction.js.html#line38">line 38</a>
+            <a href="UnitzFraction.js.html">UnitzFraction.js</a>, <a href="UnitzFraction.js.html#line43">line 43</a>
         </div>
         
     </div>
@@ -373,6 +385,8 @@ new Unitz.Fraction( 0.125, [2, 3, 4, 8] ).string; // '1/8'</code></pre>
 		<th>Type</th>
 		
 		
+		<th>Default</th>
+		
 		
 		<th class="last">Description</th>
 	</tr>
@@ -395,6 +409,10 @@ new Unitz.Fraction( 0.125, [2, 3, 4, 8] ).string; // '1/8'</code></pre>
             
             </td>
             
+            
+                <td class="default">
+                
+                </td>
             
             
             <td class="description last">
@@ -423,6 +441,10 @@ new Unitz.Fraction( 0.125, [2, 3, 4, 8] ).string; // '1/8'</code></pre>
             
             </td>
             
+            
+                <td class="default">
+                
+                </td>
             
             
             <td class="description last">
@@ -453,6 +475,10 @@ new Unitz.Fraction( 0.125, [2, 3, 4, 8] ).string; // '1/8'</code></pre>
             </td>
             
             
+                <td class="default">
+                
+                </td>
+            
             
             <td class="description last">
                 
@@ -468,6 +494,45 @@ new Unitz.Fraction( 0.125, [2, 3, 4, 8] ).string; // '1/8'</code></pre>
    If the denominators given has something like <code>[2, 4, 8, 100]</code> and you
    don't want a fraction like <code>3/100</code> you can set the <code>largestDenominator</code> to
    a number lower than 100 and you won't ever get that denominator.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>roundDown</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                <p>A fraction will try to find the closest value to <code>value</code> - sometimes the
+   closest fraction is larger than the given <code>value</code> and it is used. You can
+   pass true to this constructor and it will make sure the fraction determined
+   is never over the given <code>value</code>.</p></td>
         </tr>
 	
 	
@@ -964,7 +1029,7 @@ less than 1 and greater than -1.</p>
     
         
         <div class="tag-source">
-            <a href="UnitzFraction.js.html">UnitzFraction.js</a>, <a href="UnitzFraction.js.html#line166">line 166</a>
+            <a href="UnitzFraction.js.html">UnitzFraction.js</a>, <a href="UnitzFraction.js.html#line181">line 181</a>
         </div>
         
     </div>
@@ -1054,7 +1119,7 @@ sense.</p>
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Jun 13 2016 01:25:49 GMT-0400 (EDT)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Mar 30 2017 17:37:46 GMT-0400 (EDT)
         </footer>
     </div>
 </div>

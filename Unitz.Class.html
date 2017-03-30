@@ -65,6 +65,8 @@
             
                 <li data-name="Unitz.combine"><a href="Unitz.html#.combine">combine</a></li>
             
+                <li data-name="Unitz.compound"><a href="Unitz.html#.compound">compound</a></li>
+            
                 <li data-name="Unitz.conversions"><a href="Unitz.html#.conversions">conversions</a></li>
             
                 <li data-name="Unitz.convert"><a href="Unitz.html#.convert">convert</a></li>
@@ -82,6 +84,10 @@
                 <li data-name="Unitz.parse"><a href="Unitz.html#.parse">parse</a></li>
             
                 <li data-name="Unitz.parseInput"><a href="Unitz.html#.parseInput">parseInput</a></li>
+            
+                <li data-name="Unitz.removeGroup"><a href="Unitz.html#.removeGroup">removeGroup</a></li>
+            
+                <li data-name="Unitz.removeUnit"><a href="Unitz.html#.removeUnit">removeUnit</a></li>
             
                 <li data-name="Unitz.splitInput"><a href="Unitz.html#.splitInput">splitInput</a></li>
             
@@ -127,6 +133,10 @@
                 <li data-name="Unitz.Class#addGroup"><a href="Unitz.Class.html#addGroup">addGroup</a></li>
             
                 <li data-name="Unitz.Class#addOneBaseConversion"><a href="Unitz.Class.html#addOneBaseConversion">addOneBaseConversion</a></li>
+            
+                <li data-name="Unitz.Class#removeGroup"><a href="Unitz.Class.html#removeGroup">removeGroup</a></li>
+            
+                <li data-name="Unitz.Class#removeUnit"><a href="Unitz.Class.html#removeUnit">removeUnit</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -287,6 +297,8 @@
                 <li data-name="Unitz.Parsed#best"><a href="Unitz.Parsed.html#best">best</a></li>
             
                 <li data-name="Unitz.Parsed#convert"><a href="Unitz.Parsed.html#convert">convert</a></li>
+            
+                <li data-name="Unitz.Parsed#fraction"><a href="Unitz.Parsed.html#fraction">fraction</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -742,7 +754,7 @@ to another this map is used.</p>
     
         
         <div class="tag-source">
-            <a href="UnitzClass.js.html">UnitzClass.js</a>, <a href="UnitzClass.js.html#line164">line 164</a>
+            <a href="UnitzClass.js.html">UnitzClass.js</a>, <a href="UnitzClass.js.html#line234">line 234</a>
         </div>
         
     </div>
@@ -1161,7 +1173,7 @@ group added to this class is returned.</p>
     
         
         <div class="tag-source">
-            <a href="UnitzClass.js.html">UnitzClass.js</a>, <a href="UnitzClass.js.html#line136">line 136</a>
+            <a href="UnitzClass.js.html">UnitzClass.js</a>, <a href="UnitzClass.js.html#line206">line 206</a>
         </div>
         
     </div>
@@ -1320,6 +1332,259 @@ group added to this class is returned.</p>
     
 </dd>
 
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="removeGroup">
+            
+            removeGroup<span class="signature">(unit)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="UnitzClass.js.html">UnitzClass.js</a>, <a href="UnitzClass.js.html#line157">line 157</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Removes the group which has the given unit. The group will be removed
+entirely from the system and can no longer be parsed or converted to and
+from.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>unit</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                <p>The lowercase unit of the group to remove.</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+
+
+<h5>Returns:</h5>
+  True if the group was removed, false if it does not exist in this class.
+<br />
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="removeUnit">
+            
+            removeUnit<span class="signature">(unit)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="UnitzClass.js.html">UnitzClass.js</a>, <a href="UnitzClass.js.html#line133">line 133</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Removes a unit from this class. The group the unit to still exists in this
+class, but the unit won't be parsed to the group anymore.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>unit</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                <p>The lowercase unit to remove from this class.</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+
+
+<h5>Returns:</h5>
+  True if the unit was removed, false if it does not exist in this class.
+<br />
+
+    
+    
+    
+</dd>
+
         </dl>
     
     
@@ -1337,7 +1602,7 @@ group added to this class is returned.</p>
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Jun 13 2016 01:25:49 GMT-0400 (EDT)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Mar 30 2017 17:37:46 GMT-0400 (EDT)
         </footer>
     </div>
 </div>
