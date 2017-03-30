@@ -120,6 +120,76 @@ UnitzClass.prototype =
   },
 
   /**
+   * Removes a unit from this class. The group the unit to still exists in this
+   * class, but the unit won't be parsed to the group anymore.
+   *
+   * @method
+   * @memberof Unitz.Class#
+   * @param {String} unit -
+   *    The lowercase unit to remove from this class.
+   * @return {Boolean} -
+   *    True if the unit was removed, false if it does not exist in this class.
+   */
+  removeUnit: function(unit)
+  {
+    var exists = unit in this.converters;
+
+    delete this.converters[ unit ];
+    delete this.bases[ unit ];
+    delete this.groupMap[ unit ];
+    delete unitToClass[ unit ];
+
+    return exists;
+  },
+
+  /**
+   * Removes the group which has the given unit. The group will be removed
+   * entirely from the system and can no longer be parsed or converted to and
+   * from.
+   *
+   * @method
+   * @memberof Unitz.Class#
+   * @param {String} unit -
+   *    The lowercase unit of the group to remove.
+   * @return {Boolean} -
+   *    True if the group was removed, false if it does not exist in this class.
+   */
+  removeGroup: function(unit)
+  {
+    var group = this.groupMap[ unit ];
+    var removed = false;
+
+    if ( group )
+    {
+      var units = group.units;
+
+      for (var i = 0; i < units.length; i++)
+      {
+        var unit = units[ i ];
+
+        if ( this.groupMap[ unit ] === group )
+        {
+          delete this.converters[ unit ];
+          delete this.bases[ unit ];
+          delete this.groupMap[ unit ];
+          delete unitToClass[ unit ];
+        }
+      }
+
+      var index = this.groups.indexOf( group );
+
+      if ( index !== -1 )
+      {
+        this.groups.splice( index, 1 );
+
+        removed = true;
+      }
+    }
+
+    return removed;
+  },
+
+  /**
    * Adds a one direction conversion from one base unit to another.
    *
    * @method

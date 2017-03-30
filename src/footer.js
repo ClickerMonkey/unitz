@@ -15,12 +15,15 @@
   Unitz.splitInput = splitInput;
   Unitz.combine = combine;
   Unitz.subtract = subtract;
+  Unitz.compound = compound;
   Unitz.isHeuristicMatch = isHeuristicMatch;
   Unitz.conversions = conversions;
   Unitz.isSingular = isSingular;
   Unitz.isWhole = isWhole;
   Unitz.findUnit = findUnit;
   Unitz.addClass = addClass;
+  Unitz.removeUnit = removeUnit;
+  Unitz.removeGroup = removeGroup;
 
   Unitz.Class = UnitzClass;
   Unitz.Group = UnitzGroup;

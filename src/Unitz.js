@@ -73,6 +73,53 @@ function isArray(x)
 }
 
 /**
+ * Removes a unit from its class. The group the unit to still exists in the
+ * class, but the unit won't be parsed to the group anymore.
+ *
+ * @method
+ * @memberof Unitz
+ * @param {String} unit -
+ *    The lowercase unit to remove from this class.
+ * @return {Boolean} -
+ *    True if the unit was removed, false if it does not exist in this class.
+ */
+function removeUnit(unit)
+{
+  var removed = false;
+
+  if ( unit in unitToClass )
+  {
+    removed = unitToClass[ unit ].removeUnit( unit );
+  }
+
+  return removed;
+}
+
+/**
+ * Removes the group which has the given unit. The group will be removed
+ * entirely from the system and can no longer be parsed or converted to and
+ * from.
+ *
+ * @method
+ * @memberof Unitz
+ * @param {String} unit -
+ *    The lowercase unit of the group to remove.
+ * @return {Boolean} -
+ *    True if the group was removed, false if it does not exist in this class.
+ */
+function removeGroup(unit)
+{
+  var removed = false;
+
+  if ( unit in unitToClass )
+  {
+    removed = unitToClass[ unit ].removeGroup( unit );
+  }
+
+  return removed;
+}
+
+/**
  * Determines if the given variable is a number equivalent to one (both positive
  * and negative). This is used to determine when to use the singluar or plural
  * version of a unit.
@@ -264,6 +311,91 @@ function parse(input)
   }
 
   return new UnitzParsed( value, unit, unitToClass[ unit ], input );
+}
+
+/**
+ * Parses a number and unit out of the given string and returns a human friendly
+ * representation of the number and unit class - which is known as a compound
+ * representation because it can contain as many units as necessary to
+ * accurately describe the value. This is especially useful when you want
+ * precise amounts for a fractional value.
+ *
+ * ```javascript
+ * Unitz.compound('2 cups', ['pt', 'c']); // '1 pt'
+ * Unitz.compound('2 cups', ['c', 'tbsp']); // '2 c'
+ * Unitz.compound('0.625 cups', ['c', 'tbsp', 'tsp']); // '1/2 c, 2 tbsp'
+ * Unitz.compound('1.342 cups', ['c', 'tbsp', 'tsp']); // '1 c, 5 tbsp, 1 tsp'
+ * ```
+ *
+ * @memberof Unitz
+ * @param {String} input -
+ *    The input to parse a number & unit from.
+ * @param {String[]} [unitsAllowed=false] -
+ *    The units to be restricted to use. This can be used to avoid using
+ *    undesirable units in the output. If this is not given, then all units for
+ *    the parsed input may be used.
+ * @return {String} -
+ *    The compound string built from the input.
+ */
+function compound(input, unitsAllowed)
+{
+  var parsed = parseInput( input );
+  var compound = [];
+
+  if ( parsed.unitClass && parsed.group )
+  {
+    var groups = parsed.unitClass.groups;
+
+    for (var i = groups.length - 1; i >= 0; i--)
+    {
+      var grp = groups[ i ];
+
+      // If no specific units are desired OR the current group is a desired unit...
+      if ( !unitsAllowed || unitsAllowed.indexOf( grp.unit ) !== -1 )
+      {
+        var converted = parsed.convert( grp.unit );
+        var denoms = grp.denominators;
+
+        // Try out each denominator in the given group.
+        for (var k = 0; k < denoms.length; k++)
+        {
+          var den = denoms[ k ];
+          var num = Math.floor( den * converted );
+
+          // If the numerator to the current fraction is greater than zero then
+          // use this group as the next statement in the compound string.
+          if ( num >= 1 )
+          {
+            var actual = num / den;
+            var whole = Math.floor( actual );
+
+            var part = '';
+
+            if ( whole >= 1 )
+            {
+              part += whole;
+              num -= whole * den;
+            }
+
+            if ( num > 0 && den > 1 )
+            {
+              part += (part.length > 0 ? ' ' : '') + num + '/' + den;
+            }
+
+            part = createNormal( part, grp.unit );
+
+            compound.push( part );
+
+            parsed.value -= convert( part, parsed.unit );
+
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  return compound.length ? compound.join( ', ' ) : parsed.normal;
 }
 
 /**

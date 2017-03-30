@@ -1,4 +1,4 @@
-/* unitz 0.4.0 - A unit parser, converter, & combiner in JS by Philip Diffenderfer */
+/* unitz 0.5.0 - A unit parser, converter, & combiner in JS by Philip Diffenderfer */
 // UMD (Universal Module Definition)
 (function (root, factory)
 {
@@ -94,6 +94,53 @@ function isNumber(x)
 function isArray(x)
 {
   return x instanceof Array;
+}
+
+/**
+ * Removes a unit from its class. The group the unit to still exists in the
+ * class, but the unit won't be parsed to the group anymore.
+ *
+ * @method
+ * @memberof Unitz
+ * @param {String} unit -
+ *    The lowercase unit to remove from this class.
+ * @return {Boolean} -
+ *    True if the unit was removed, false if it does not exist in this class.
+ */
+function removeUnit(unit)
+{
+  var removed = false;
+
+  if ( unit in unitToClass )
+  {
+    removed = unitToClass[ unit ].removeUnit( unit );
+  }
+
+  return removed;
+}
+
+/**
+ * Removes the group which has the given unit. The group will be removed
+ * entirely from the system and can no longer be parsed or converted to and
+ * from.
+ *
+ * @method
+ * @memberof Unitz
+ * @param {String} unit -
+ *    The lowercase unit of the group to remove.
+ * @return {Boolean} -
+ *    True if the group was removed, false if it does not exist in this class.
+ */
+function removeGroup(unit)
+{
+  var removed = false;
+
+  if ( unit in unitToClass )
+  {
+    removed = unitToClass[ unit ].removeGroup( unit );
+  }
+
+  return removed;
 }
 
 /**
@@ -288,6 +335,91 @@ function parse(input)
   }
 
   return new UnitzParsed( value, unit, unitToClass[ unit ], input );
+}
+
+/**
+ * Parses a number and unit out of the given string and returns a human friendly
+ * representation of the number and unit class - which is known as a compound
+ * representation because it can contain as many units as necessary to
+ * accurately describe the value. This is especially useful when you want
+ * precise amounts for a fractional value.
+ *
+ * ```javascript
+ * Unitz.compound('2 cups', ['pt', 'c']); // '1 pt'
+ * Unitz.compound('2 cups', ['c', 'tbsp']); // '2 c'
+ * Unitz.compound('0.625 cups', ['c', 'tbsp', 'tsp']); // '1/2 c, 2 tbsp'
+ * Unitz.compound('1.342 cups', ['c', 'tbsp', 'tsp']); // '1 c, 5 tbsp, 1 tsp'
+ * ```
+ *
+ * @memberof Unitz
+ * @param {String} input -
+ *    The input to parse a number & unit from.
+ * @param {String[]} [unitsAllowed=false] -
+ *    The units to be restricted to use. This can be used to avoid using
+ *    undesirable units in the output. If this is not given, then all units for
+ *    the parsed input may be used.
+ * @return {String} -
+ *    The compound string built from the input.
+ */
+function compound(input, unitsAllowed)
+{
+  var parsed = parseInput( input );
+  var compound = [];
+
+  if ( parsed.unitClass && parsed.group )
+  {
+    var groups = parsed.unitClass.groups;
+
+    for (var i = groups.length - 1; i >= 0; i--)
+    {
+      var grp = groups[ i ];
+
+      // If no specific units are desired OR the current group is a desired unit...
+      if ( !unitsAllowed || unitsAllowed.indexOf( grp.unit ) !== -1 )
+      {
+        var converted = parsed.convert( grp.unit );
+        var denoms = grp.denominators;
+
+        // Try out each denominator in the given group.
+        for (var k = 0; k < denoms.length; k++)
+        {
+          var den = denoms[ k ];
+          var num = Math.floor( den * converted );
+
+          // If the numerator to the current fraction is greater than zero then
+          // use this group as the next statement in the compound string.
+          if ( num >= 1 )
+          {
+            var actual = num / den;
+            var whole = Math.floor( actual );
+
+            var part = '';
+
+            if ( whole >= 1 )
+            {
+              part += whole;
+              num -= whole * den;
+            }
+
+            if ( num > 0 && den > 1 )
+            {
+              part += (part.length > 0 ? ' ' : '') + num + '/' + den;
+            }
+
+            part = createNormal( part, grp.unit );
+
+            compound.push( part );
+
+            parsed.value -= convert( part, parsed.unit );
+
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  return compound.length ? compound.join( ', ' ) : parsed.normal;
 }
 
 /**
@@ -908,6 +1040,76 @@ UnitzClass.prototype =
   },
 
   /**
+   * Removes a unit from this class. The group the unit to still exists in this
+   * class, but the unit won't be parsed to the group anymore.
+   *
+   * @method
+   * @memberof Unitz.Class#
+   * @param {String} unit -
+   *    The lowercase unit to remove from this class.
+   * @return {Boolean} -
+   *    True if the unit was removed, false if it does not exist in this class.
+   */
+  removeUnit: function(unit)
+  {
+    var exists = unit in this.converters;
+
+    delete this.converters[ unit ];
+    delete this.bases[ unit ];
+    delete this.groupMap[ unit ];
+    delete unitToClass[ unit ];
+
+    return exists;
+  },
+
+  /**
+   * Removes the group which has the given unit. The group will be removed
+   * entirely from the system and can no longer be parsed or converted to and
+   * from.
+   *
+   * @method
+   * @memberof Unitz.Class#
+   * @param {String} unit -
+   *    The lowercase unit of the group to remove.
+   * @return {Boolean} -
+   *    True if the group was removed, false if it does not exist in this class.
+   */
+  removeGroup: function(unit)
+  {
+    var group = this.groupMap[ unit ];
+    var removed = false;
+
+    if ( group )
+    {
+      var units = group.units;
+
+      for (var i = 0; i < units.length; i++)
+      {
+        var unit = units[ i ];
+
+        if ( this.groupMap[ unit ] === group )
+        {
+          delete this.converters[ unit ];
+          delete this.bases[ unit ];
+          delete this.groupMap[ unit ];
+          delete unitToClass[ unit ];
+        }
+      }
+
+      var index = this.groups.indexOf( group );
+
+      if ( index !== -1 )
+      {
+        this.groups.splice( index, 1 );
+
+        removed = true;
+      }
+    }
+
+    return removed;
+  },
+
+  /**
    * Adds a one direction conversion from one base unit to another.
    *
    * @method
@@ -1190,10 +1392,15 @@ UnitzParsed.prototype =
    *    the valid fraction denominators for the unit) you can specify which
    *    denominators to use when calculating the nearest fraction to the
    *    converted value.
+   * @param {Boolean} [roundDown=false] -
+   *    A fraction will try to find the closest value to `value` - sometimes the
+   *    closest fraction is larger than the given `value` and it is used. You can
+   *    pass true to this constructor and it will make sure the fraction determined
+   *    is never over the given `value`.
    * @see Unitz.Fraction
    * @return {Number|String|Unitz.Fraction|false}
    */
-  convert: function(to, returnFraction, withUnit, largestDenominator, classlessDenominators)
+  convert: function(to, returnFraction, withUnit, largestDenominator, classlessDenominators, roundDown)
   {
     var converted = convert( this, to );
 
@@ -1203,7 +1410,7 @@ UnitzParsed.prototype =
 
       if ( isArray( denominators ) )
       {
-        converted = new UnitzFraction( converted, denominators, largestDenominator );
+        converted = new UnitzFraction( converted, denominators, largestDenominator, roundDown );
 
         if ( isObject( converted ) && withUnit && to )
         {
@@ -1234,6 +1441,45 @@ UnitzParsed.prototype =
   best: function(returnFraction, largestDenominator)
   {
     return best( this, returnFraction, largestDenominator );
+  },
+
+  /**
+   * Returns the fraction representation of this parsed value.
+   *
+   * @param {Boolean} [withUnit=false] -
+   *    If the {@link Unitz.Fraction#string} property should have the unit added
+   *    to it.
+   * @param {Number[]} [denominators] -
+   *    The array of denominators to use when converting the given value into a
+   *    fraction. If a falsy value is given the denonimators of this parsed group
+   *    will be used if a unit group has been determined.
+   * @param {Number} [largestDenominator] -
+   *    Sometimes you don't want to use all of the denominators in the above array
+   *    (it could be from a {@link Unitz.Group}) and you would like to set a max.
+   *    If the denominators given has something like `[2, 4, 8, 100]` and you
+   *    don't want a fraction like `3/100` you can set the `largestDenominator` to
+   *    a number lower than 100 and you won't ever get that denominator.
+   * @param {Boolean} [roundDown=false] -
+   *    A fraction will try to find the closest value to `value` - sometimes the
+   *    closest fraction is larger than the given `value` and it is used. You can
+   *    pass true to this constructor and it will make sure the fraction determined
+   *    is never over the given `value`.
+   * @return {Unitz.Fraction} -
+   *    A new instance of Unitz.Fraction which is a representation of the parsed
+   *    value.
+   */
+  fraction: function(withUnit, denominators, largestDenominator, roundDown)
+  {
+    var groupDenominators = this.group ? this.group.denominators : [];
+    var fractionDenominators = denominators || groupDenominators;
+    var fraction = new UnitzFraction( this.value, fractionDenominators, largestDenominator, roundDown );
+
+    if (withUnit)
+    {
+      fraction.string = createNormal( fraction.string, this.unit );
+    }
+
+    return fraction;
   }
 
 };
@@ -1288,8 +1534,13 @@ UnitzParsed.fromNumber = function(number)
  *    If the denominators given has something like `[2, 4, 8, 100]` and you
  *    don't want a fraction like `3/100` you can set the `largestDenominator` to
  *    a number lower than 100 and you won't ever get that denominator.
+ * @param {Boolean} [roundDown=false] -
+ *    A fraction will try to find the closest value to `value` - sometimes the
+ *    closest fraction is larger than the given `value` and it is used. You can
+ *    pass true to this constructor and it will make sure the fraction determined
+ *    is never over the given `value`.
  */
-function UnitzFraction(value, denominators, largestDenominator)
+function UnitzFraction(value, denominators, largestDenominator, roundDown)
 {
   var distance = Math.abs( Math.floor( value ) - value );
   var denominator = 1;
@@ -1299,11 +1550,17 @@ function UnitzFraction(value, denominators, largestDenominator)
   {
     var den = denominators[ i ];
     var num = Math.round( value * den );
-    var dis = Math.abs( num / den - value );
+    var signdis = num / den - value;
+    var dis = Math.abs( signdis );
 
     if ( isNumber( largestDenominator ) && den > largestDenominator )
     {
       break;
+    }
+
+    if ( roundDown && signdis > 0 )
+    {
+      continue;
     }
 
     if ( dis + Unitz.epsilon < distance )
@@ -1397,9 +1654,13 @@ function UnitzFraction(value, denominators, largestDenominator)
   {
     this.string = numerator + '/' + denominator;
   }
-  else
+  else if ( this.remainder !== 0 )
   {
     this.string = this.whole + ' ' + this.remainder + '/' + denominator;
+  }
+  else
+  {
+    this.string = this.whole + '';
   }
 }
 
@@ -1701,12 +1962,15 @@ addClass((function generateWeightClass()
   Unitz.splitInput = splitInput;
   Unitz.combine = combine;
   Unitz.subtract = subtract;
+  Unitz.compound = compound;
   Unitz.isHeuristicMatch = isHeuristicMatch;
   Unitz.conversions = conversions;
   Unitz.isSingular = isSingular;
   Unitz.isWhole = isWhole;
   Unitz.findUnit = findUnit;
   Unitz.addClass = addClass;
+  Unitz.removeUnit = removeUnit;
+  Unitz.removeGroup = removeGroup;
 
   Unitz.Class = UnitzClass;
   Unitz.Group = UnitzGroup;

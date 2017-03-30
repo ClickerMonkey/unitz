@@ -124,3 +124,38 @@ test( 'isSingular', function(assert)
   notOk( Unitz.isSingular( 1.01 ) );
   notOk( Unitz.isSingular( 0.99 ) );
 });
+
+test( 'compound', function(assert)
+{
+  strictEqual( Unitz.compound('4.625 cups', ['c', 'tbsp', 'tsp']), '4 1/2 c, 2 tbsp' );
+  strictEqual( Unitz.compound('0.625 cups', ['c', 'tbsp', 'tsp']), '1/2 c, 2 tbsp' );
+  strictEqual( Unitz.compound('0.687 cups', ['c', 'tbsp', 'tsp']), '1/2 c, 2 1/2 tbsp, 1 tsp' );
+});
+
+test( 'removeGroup', function(assert)
+{
+  strictEqual( Unitz.best('0.25 cups').normal, '2 fluid ounces' );
+
+  Unitz.removeGroup( 'floz' );
+
+  strictEqual( Unitz.best('0.25 cups').normal, '4 tablespoons' );
+});
+
+test( 'convert rounding', function(assert)
+{
+  var a = Unitz.parse( '0.625c' );
+  var b = a.convert( 'c', true, true, false, false, true );
+
+  strictEqual( b.string, '1/2 c' );
+  strictEqual( b.distance, 0.125 );
+
+  var c = a.convert( 'c', true, true );
+
+  strictEqual( c.string, '2/3 c' );
+  strictEqual( c.distance, 0.04166666666666663 );
+});
+
+test( 'fraction', function(assert)
+{
+  strictEqual( Unitz.parse( '0.625c' ).fraction( true ).string, '2/3 c' );
+});

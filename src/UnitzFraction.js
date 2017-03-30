@@ -34,8 +34,13 @@
  *    If the denominators given has something like `[2, 4, 8, 100]` and you
  *    don't want a fraction like `3/100` you can set the `largestDenominator` to
  *    a number lower than 100 and you won't ever get that denominator.
+ * @param {Boolean} [roundDown=false] -
+ *    A fraction will try to find the closest value to `value` - sometimes the
+ *    closest fraction is larger than the given `value` and it is used. You can
+ *    pass true to this constructor and it will make sure the fraction determined
+ *    is never over the given `value`.
  */
-function UnitzFraction(value, denominators, largestDenominator)
+function UnitzFraction(value, denominators, largestDenominator, roundDown)
 {
   var distance = Math.abs( Math.floor( value ) - value );
   var denominator = 1;
@@ -45,11 +50,17 @@ function UnitzFraction(value, denominators, largestDenominator)
   {
     var den = denominators[ i ];
     var num = Math.round( value * den );
-    var dis = Math.abs( num / den - value );
+    var signdis = num / den - value;
+    var dis = Math.abs( signdis );
 
     if ( isNumber( largestDenominator ) && den > largestDenominator )
     {
       break;
+    }
+
+    if ( roundDown && signdis > 0 )
+    {
+      continue;
     }
 
     if ( dis + Unitz.epsilon < distance )
@@ -143,9 +154,13 @@ function UnitzFraction(value, denominators, largestDenominator)
   {
     this.string = numerator + '/' + denominator;
   }
-  else
+  else if ( this.remainder !== 0 )
   {
     this.string = this.whole + ' ' + this.remainder + '/' + denominator;
+  }
+  else
+  {
+    this.string = this.whole + '';
   }
 }
 

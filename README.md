@@ -64,6 +64,15 @@ Unitz.best('12in').normal; // '1 foot'
 Unitz.best('1/4 cup').normal; // '2 fluid ounces'
 
 // =============================================================================
+// Unitz.compound( input, unitsAllowed )
+// =============================================================================
+
+Unitz.compound('2 cups', ['pt', 'c']); // '1 pt'
+Unitz.compound('2 cups', ['c', 'tbsp']); // '2 c'
+Unitz.compound('0.625 cups', ['c', 'tbsp', 'tsp']); // '1/2 c, 2 tbsp'
+Unitz.compound('1.342 cups', ['c', 'tbsp', 'tsp']); // '1 c, 5 tbsp, 1 tsp'
+
+// =============================================================================
 // Unitz.combine( a, b, useFractions, largestDenominator )
 // =============================================================================
 

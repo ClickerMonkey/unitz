@@ -96,10 +96,15 @@ UnitzParsed.prototype =
    *    the valid fraction denominators for the unit) you can specify which
    *    denominators to use when calculating the nearest fraction to the
    *    converted value.
+   * @param {Boolean} [roundDown=false] -
+   *    A fraction will try to find the closest value to `value` - sometimes the
+   *    closest fraction is larger than the given `value` and it is used. You can
+   *    pass true to this constructor and it will make sure the fraction determined
+   *    is never over the given `value`.
    * @see Unitz.Fraction
    * @return {Number|String|Unitz.Fraction|false}
    */
-  convert: function(to, returnFraction, withUnit, largestDenominator, classlessDenominators)
+  convert: function(to, returnFraction, withUnit, largestDenominator, classlessDenominators, roundDown)
   {
     var converted = convert( this, to );
 
@@ -109,7 +114,7 @@ UnitzParsed.prototype =
 
       if ( isArray( denominators ) )
       {
-        converted = new UnitzFraction( converted, denominators, largestDenominator );
+        converted = new UnitzFraction( converted, denominators, largestDenominator, roundDown );
 
         if ( isObject( converted ) && withUnit && to )
         {
@@ -140,6 +145,45 @@ UnitzParsed.prototype =
   best: function(returnFraction, largestDenominator)
   {
     return best( this, returnFraction, largestDenominator );
+  },
+
+  /**
+   * Returns the fraction representation of this parsed value.
+   *
+   * @param {Boolean} [withUnit=false] -
+   *    If the {@link Unitz.Fraction#string} property should have the unit added
+   *    to it.
+   * @param {Number[]} [denominators] -
+   *    The array of denominators to use when converting the given value into a
+   *    fraction. If a falsy value is given the denonimators of this parsed group
+   *    will be used if a unit group has been determined.
+   * @param {Number} [largestDenominator] -
+   *    Sometimes you don't want to use all of the denominators in the above array
+   *    (it could be from a {@link Unitz.Group}) and you would like to set a max.
+   *    If the denominators given has something like `[2, 4, 8, 100]` and you
+   *    don't want a fraction like `3/100` you can set the `largestDenominator` to
+   *    a number lower than 100 and you won't ever get that denominator.
+   * @param {Boolean} [roundDown=false] -
+   *    A fraction will try to find the closest value to `value` - sometimes the
+   *    closest fraction is larger than the given `value` and it is used. You can
+   *    pass true to this constructor and it will make sure the fraction determined
+   *    is never over the given `value`.
+   * @return {Unitz.Fraction} -
+   *    A new instance of Unitz.Fraction which is a representation of the parsed
+   *    value.
+   */
+  fraction: function(withUnit, denominators, largestDenominator, roundDown)
+  {
+    var groupDenominators = this.group ? this.group.denominators : [];
+    var fractionDenominators = denominators || groupDenominators;
+    var fraction = new UnitzFraction( this.value, fractionDenominators, largestDenominator, roundDown );
+
+    if (withUnit)
+    {
+      fraction.string = createNormal( fraction.string, this.unit );
+    }
+
+    return fraction;
   }
 
 };
