@@ -570,7 +570,7 @@ generate conversions for all units in the same &quot;class&quot;.</p></div>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line886">line 886</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line892">line 892</a>
         </div>
         
     </div>
@@ -682,12 +682,12 @@ class to be available for parsing.</p>
     <div class="nameContainer">
         <h4 class="name" id=".best">
             
-            <span class="type-signature static">static</span>Unitz.best<span class="signature">(input, <span class="optional">returnFraction</span>, <span class="optional">largestDenominator</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="Unitz.Parsed.html">Unitz.Parsed</a>}</span>
+            <span class="type-signature static">static</span>Unitz.best<span class="signature">(input, <span class="optional">returnFraction</span>, <span class="optional">abbreviations</span>, <span class="optional">largestDenominator</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="Unitz.Parsed.html">Unitz.Parsed</a>}</span>
         </h4>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line426">line 426</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line428">line 428</a>
         </div>
         
     </div>
@@ -807,6 +807,42 @@ Unitz.best('2640 ft', true); // '1/2 mile'</code></pre>
 	
         <tr>
             
+                <td class="name"><code>abbreviations</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                <p>If the returned value should use abbreviations if they're available.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
                 <td class="name"><code>largestDenominator</code></td>
             
             
@@ -897,12 +933,12 @@ Unitz.best('2640 ft', true); // '1/2 mile'</code></pre>
     <div class="nameContainer">
         <h4 class="name" id=".combine">
             
-            <span class="type-signature static">static</span>Unitz.combine<span class="signature">(inputA, inputB, <span class="optional">fraction</span>, <span class="optional">largestDenominator</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{String}</span>
+            <span class="type-signature static">static</span>Unitz.combine<span class="signature">(inputA, inputB, <span class="optional">fraction</span>, <span class="optional">abbreviations</span>, <span class="optional">largestDenominator</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{String}</span>
         </h4>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line612">line 612</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line616">line 616</a>
         </div>
         
     </div>
@@ -1059,6 +1095,42 @@ Unitz.combine( '3 cups, 1 bag', '2 bags, 12 tacos' ); // `3 cups, 3 bags, 12 tac
                     
                 
                 <p>If the returned value should attempt to use fractions.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>abbreviations</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                <p>If the returned value should use abbreviations if they're available.</p></td>
         </tr>
 	
 	
@@ -1341,7 +1413,7 @@ Unitz.compound('1.342 cups', ['c', 'tbsp', 'tsp']); // '1 c, 5 tbsp, 1 tsp'</cod
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line838">line 838</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line844">line 844</a>
         </div>
         
     </div>
@@ -1567,7 +1639,7 @@ numbers to only return human friendly conversions.</p>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line508">line 508</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line510">line 510</a>
         </div>
         
     </div>
@@ -1883,7 +1955,7 @@ have a unit then the value is returned immediately.</p>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line570">line 570</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line572">line 572</a>
         </div>
         
     </div>
@@ -3094,12 +3166,12 @@ class, but the unit won't be parsed to the group anymore.</p>
     <div class="nameContainer">
         <h4 class="name" id=".subtract">
             
-            <span class="type-signature static">static</span>Unitz.subtract<span class="signature">(inputA, inputB, <span class="optional">allowNegatives</span>, <span class="optional">fraction</span>, <span class="optional">largestDenominator</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{String}</span>
+            <span class="type-signature static">static</span>Unitz.subtract<span class="signature">(inputA, inputB, <span class="optional">allowNegatives</span>, <span class="optional">fraction</span>, <span class="optional">abbreviations</span>, <span class="optional">largestDenominator</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{String}</span>
         </h4>
     
         
         <div class="tag-source">
-            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line724">line 724</a>
+            <a href="Unitz.js.html">Unitz.js</a>, <a href="Unitz.js.html#line730">line 730</a>
         </div>
         
     </div>
@@ -3300,6 +3372,42 @@ Unitz.subtract( '3 cups, 1 bag', '2 bags, 12 tacos' ); // `3 cups'</code></pre>
 	
         <tr>
             
+                <td class="name"><code>abbreviations</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                <p>If the returned value should use abbreviations if they're available.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
                 <td class="name"><code>largestDenominator</code></td>
             
             
@@ -3400,7 +3508,7 @@ Unitz.subtract( '3 cups, 1 bag', '2 bags, 12 tacos' ); // `3 cups'</code></pre>
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Mar 30 2017 17:37:46 GMT-0400 (EDT)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri May 19 2017 01:55:08 GMT-0400 (EDT)
         </footer>
     </div>
 </div>
