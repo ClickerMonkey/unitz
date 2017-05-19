@@ -11,8 +11,11 @@ addClass((function generateVolumeClass()
   uc.addGroup( 4,     'c',    ['qt', 'quart', 'quarts'], [2, 4, 8], 'quart', 'quarts' );
   uc.addGroup( 4,     'qt',   ['gal', 'gallon', 'gallons'], [2, 4, 8, 16], 'gallon', 'gallons' );
 
-  uc.addGroup( 1,     null,   ['ml', 'millilitre', 'millilitres'], [2, 10], 'millilitre', 'millilitres' );
-  uc.addGroup( 1000,  'ml',   ['l', 'litre', 'litres'], [2, 10], 'litre', 'litres' );
+  uc.addGroup( 1,     null,   ['ml', 'millilitre', 'millilitres', 'milliliter', 'milliliters'], [2, 10], 'milliliter', 'milliliters' );
+  uc.addGroup( 10,    'ml',   ['cl', 'centilitre', 'centilitres', 'centiliter', 'centiliters'], [10], 'centiliter', 'centiliters' );
+  uc.addGroup( 1000,  'ml',   ['l', 'litre', 'litres', 'liter', 'liters'], [2, 3, 4, 10], 'liter', 'liters' );
+  uc.addGroup( 10,    'l',    ['dl', 'decalitre', 'decalitres', 'decaliter', 'decaliters'], [10, 100], 'decaliter', 'decaliters' );
+  uc.addGroup( 1000,  'l',    ['kl', 'kilolitre', 'kilolitres', 'kiloliter', 'kiloliters'], [10, 100], 'kiloliter', 'kiloliters' );
 
   uc.addGroup( 1,     null,   ['mm3', 'mm^3', 'cubic mm', 'cubic millimeter', 'cubic millimeters'], [2, 4, 8], 'cubic millimeter', 'cubic millimeters' );
   uc.addGroup( 1000,  'mm3',  ['cm3', 'cm^3', 'cubiccmm', 'cubic centimeter', 'cubic centimeters'], [2, 4, 8], 'cubic centimeter', 'cubic centimeters' );

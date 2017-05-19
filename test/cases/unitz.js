@@ -97,12 +97,13 @@ test( 'conversions volume', function(assert)
 {
   var conversions = Unitz.conversions('1/4c', 0.1, 10).conversions;
 
-  strictEqual( conversions.length, 5 );
+  strictEqual( conversions.length, 6 );
   strictEqual( conversions[0].longNormal, '4 tablespoons' );
   strictEqual( conversions[1].longNormal, '2 fluid ounces' );
   strictEqual( conversions[2].longNormal, '1/4 cup' );
   strictEqual( conversions[3].longNormal, '1/8 pint' );
-  strictEqual( conversions[4].longNormal, '3 5/8 cubic inches' );
+  strictEqual( conversions[4].longNormal, '5 9/10 centiliters' );
+  strictEqual( conversions[5].longNormal, '3 5/8 cubic inches' );
 });
 
 test( 'toFraction', function(assert)

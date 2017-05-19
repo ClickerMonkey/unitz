@@ -1,6 +1,6 @@
 {
   "name": "unitz",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A unit parser, converter, & combiner in JS",
   "author": "Philip Diffenderfer",
   "main": "build/unitz.js",
