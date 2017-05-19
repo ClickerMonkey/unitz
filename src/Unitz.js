@@ -417,13 +417,15 @@ function compound(input, unitsAllowed)
  *    The input to return the best representation of.
  * @param {Boolean} [returnFraction=false] -
  *    If the best representation should attempted to be a fraction.
+ * @param {Boolean} [abbreviations=false] -
+ *    If the returned value should use abbreviations if they're available.
  * @param {Number} [largestDenominator] -
  *    See {@link Unitz.Fraction}.
  * @return {Unitz.Parsed} -
  *    The parsed instance with the {@link Unitz.Parsed#normal} property set to
  *    the best representation.
  */
-function best(input, returnFraction, largestDenominator)
+function best(input, returnFraction, abbreviations, largestDenominator)
 {
   var parsed = parseInput( input );
 
@@ -479,8 +481,8 @@ function best(input, returnFraction, largestDenominator)
       }
 
       parsed.normal = returnFraction ?
-        createNormal( closest.string, closestGroup.getUnit( closest.isSingular() ) ) :
-        closestGroup.addUnit( closest.actual );
+        createNormal( closest.string, closestGroup.getUnit( closest.isSingular(), abbreviations ) ) :
+        closestGroup.addUnit( closest.actual, abbreviations );
     }
   }
 
@@ -604,12 +606,14 @@ function findUnit(units, singular)
  *    The second expression or set of expressions to add together.
  * @param {Boolean} [fraction=false] -
  *    If the returned value should attempt to use fractions.
+ * @param {Boolean} [abbreviations=false] -
+ *    If the returned value should use abbreviations if they're available.
  * @param {Number} [largestDenominator] -
  *    See {@link Unitz.Fraction}.
  * @return {String} -
  *    The string representation of `inputA + inputB`.
  */
-function combine(inputA, inputB, fraction, largestDenominator)
+function combine(inputA, inputB, fraction, abbreviations, largestDenominator)
 {
   var splitA = splitInput( inputA );
   var splitB = splitInput( inputB );
@@ -673,7 +677,7 @@ function combine(inputA, inputB, fraction, largestDenominator)
 
     if ( a.group )
     {
-      a.normal = a.group.addUnit( a.value );
+      a.normal = a.group.addUnit( a.value, abbreviations );
     }
     else
     {
@@ -681,7 +685,7 @@ function combine(inputA, inputB, fraction, largestDenominator)
       a.normal = createNormal( a.value, a.unit );
     }
 
-    var parsedBest = best( a, fraction, largestDenominator );
+    var parsedBest = best( a, fraction, abbreviations, largestDenominator );
 
     if ( parsedBest && parsedBest.normal )
     {
@@ -716,12 +720,14 @@ function combine(inputA, inputB, fraction, largestDenominator)
  *    Whether or not negative values should be included in the results.
  * @param {Boolean} [fraction=false] -
  *    If the returned value should attempt to use fractions.
+ * @param {Boolean} [abbreviations=false] -
+ *    If the returned value should use abbreviations if they're available.
  * @param {Number} [largestDenominator] -
  *    See {@link Unitz.Fraction}.
  * @return {String} -
  *    The string representation of `inputA - inputB`.
  */
-function subtract(inputA, inputB, allowNegatives, fraction, largestDenominator)
+function subtract(inputA, inputB, allowNegatives, fraction, abbreviations, largestDenominator)
 {
   var splitA = splitInput( inputA );
   var splitB = splitInput( inputB );
@@ -792,7 +798,7 @@ function subtract(inputA, inputB, allowNegatives, fraction, largestDenominator)
 
     if ( a.group )
     {
-      a.normal = a.group.addUnit( a.value );
+      a.normal = a.group.addUnit( a.value, abbreviations );
     }
     else
     {
@@ -800,7 +806,7 @@ function subtract(inputA, inputB, allowNegatives, fraction, largestDenominator)
       a.normal = createNormal( a.value, a.unit );
     }
 
-    var parsedBest = best( a, fraction, largestDenominator );
+    var parsedBest = best( a, fraction, abbreviations, largestDenominator );
 
     if ( parsedBest && parsedBest.normal )
     {

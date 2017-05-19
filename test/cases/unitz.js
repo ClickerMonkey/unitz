@@ -65,7 +65,9 @@ test( 'combine', function(assert)
   strictEqual( Unitz.combine( '2, 3, 4', '1 taco' ), '10 taco' );
   strictEqual( Unitz.combine( '2, 3 tacos, 4', '1 taco' ), '10 tacos' );
   strictEqual( Unitz.combine( '1 pint', '2 cup' ), '1 quart' );
+  strictEqual( Unitz.combine( '1 pint', '2 cup', false, true ), '1 qt' );
   strictEqual( Unitz.combine( '2 bags, 2 cup', '1 pint, 1 bag' ), '3 bags, 1 quart' );
+  strictEqual( Unitz.combine( '2 bags, 2 cup', '1 pint, 1 bag', false, true ), '3 bags, 1 qt' );
 });
 
 test( 'subtract', function(assert)
@@ -73,7 +75,9 @@ test( 'subtract', function(assert)
   strictEqual( Unitz.subtract( '1 cup', '2 cups' ), '' );
   strictEqual( Unitz.subtract( '1 loaf', '2 loaves', true ), '-1 loaf' ); // heuristic matching
   strictEqual( Unitz.subtract( '1 pint', 'cup' ), '1 cup' );
+  strictEqual( Unitz.subtract( '1 pint', 'cup', false, false, true ), '1 c' );
   strictEqual( Unitz.subtract( '2 bags, 3 cup', '1 pint, 1 bag' ), '1 bag, 1 cup' );
+  strictEqual( Unitz.subtract( '2 bags, 3 cup', '1 pint, 1 bag', false, false, true ), '1 bag, 1 c' );
 });
 
 test( 'conversions simple', function(assert)

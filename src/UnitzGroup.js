@@ -100,13 +100,15 @@ UnitzGroup.prototype =
    * @memberof Unitz.Group#
    * @param {Number} x -
    *    The number to add the appropriate unit to.
+   * @param {Boolean} [abbreviations=true] -
+   *    Whether to return the abbrevation instead of the long units.
    * @see Unitz.isSingular
    * @see Unitz.createNormal
    * @return {String}
    */
-  addUnit: function(x)
+  addUnit: function(x, abbreviations)
   {
-    return createNormal( x, this.getUnit( x ) );
+    return createNormal( x, this.getUnit( x, abbreviations ) );
   },
 
   /**
@@ -123,12 +125,14 @@ UnitzGroup.prototype =
    * @memberof Unitz.Group#
    * @param {Number} x -
    *    The number to determine the appropriate unit for.
+   * @param {Boolean} [abbreviations=true] -
+   *    Whether to return the abbrevation instead of the long units.
    * @see Unitz.isSingular
    * @return {String}
    */
-  getUnit: function(x)
+  getUnit: function(x, abbreviations)
   {
-    return isSingular( x ) ? this.singular : this.plural;
+    return abbreviations ? this.unit : (isSingular( x ) ? this.singular : this.plural);
   }
 
 };

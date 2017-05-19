@@ -73,7 +73,7 @@ Unitz.compound('0.625 cups', ['c', 'tbsp', 'tsp']); // '1/2 c, 2 tbsp'
 Unitz.compound('1.342 cups', ['c', 'tbsp', 'tsp']); // '1 c, 5 tbsp, 1 tsp'
 
 // =============================================================================
-// Unitz.combine( a, b, useFractions, largestDenominator )
+// Unitz.combine( a, b, useFractions, abbreviations, largestDenominator )
 // =============================================================================
 
 Unitz.combine( '1 cup', '2 cups' ); // '3 cups'
@@ -85,7 +85,7 @@ Unitz.combine( '2, 3, 4', '1 taco' ); // '10 taco'
 Unitz.combine( '2, 3 tacos, 4', '1 taco' ); // '10 tacos'
 
 // =============================================================================
-// Unitz.subtract( a, b, allowNegatives, useFractions, largestDenominator )
+// Unitz.subtract( a, b, allowNegatives, useFractions, abbreviations, largestDenominator )
 // =============================================================================
 
 Unitz.subtract( '2 bags, 3 pints', '1 bag, 1 quart' ); // '1 bag, 1 pint'
@@ -137,8 +137,11 @@ Unitz.conversions( '1.5 quarts' ); /* Unitz.Parsed with conversions: Unitz.Conve
 - `['pt', 'pint', 'pints']`
 - `['qt', 'quart', 'quarts']`
 - `['gal', 'gallon', 'gallons']`
-- `['ml', 'millilitre', 'millilitres']`
-- `['l', 'litre', 'litres']`
+- `['ml', 'millilitre', 'millilitres', 'milliliter', 'milliliters']`
+- `['l', 'litre', 'litres', 'liter', 'liters']`
+- `['cl', 'centilitre', 'centilitres', 'centiliter', 'centiliters']`
+- `['dl', 'decalitre', 'decalitres', 'decaliter', 'decaliters']`
+- `['kl', 'kilolitre', 'kilolitres', 'kiloliter', 'kiloliters']`
 - `['mm3', 'mm^3', 'cubic mm', 'cubic millimeter', 'cubic millimeters']`
 - `['cm3', 'cm^3', 'cubiccmm', 'cubic centimeter', 'cubic centimeters']`
 - `['m3', 'm^3', 'cubic m', 'cubic meter', 'cubic meters']`
