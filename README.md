@@ -1,3 +1,5 @@
+This library is no longer maintained, and has been replaced by [unitz-ts](https://github.com/ClickerMonkey/unitz-ts)
+
 # Unitz
 
 [![Build Status](https://travis-ci.org/ClickerMonkey/unitz.svg?branch=master)](https://travis-ci.org/ClickerMonkey/unitz)
